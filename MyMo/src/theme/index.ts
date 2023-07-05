@@ -4,4 +4,5 @@ import { light } from './light';
 
 const theme: Theme = { dark, light };
 
+export type * from './theme.types';
 export default theme;

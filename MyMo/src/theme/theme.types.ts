@@ -1,4 +1,4 @@
-type Color =
+export type Color =
   | 'primary'
   | 'secondary'
   | 'error'
