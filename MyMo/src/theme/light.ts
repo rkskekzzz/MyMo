@@ -1,6 +1,6 @@
 import type { ColorStyle } from './theme.types';
 
-export const light: ColorStyle = {
+const light: ColorStyle = {
   primary: '#007bff',
   secondary: '#6c757d',
   error: '#dc3545',
@@ -13,3 +13,5 @@ export const light: ColorStyle = {
   background: '#f8f9fa',
   disabled: '#ced4da',
 };
+
+export default light;

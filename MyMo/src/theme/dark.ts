@@ -1,6 +1,6 @@
 import type { ColorStyle } from './theme.types';
 
-export const dark: ColorStyle = {
+const dark: ColorStyle = {
   primary: '#0d6efd',
   secondary: '#6c757d',
   error: '#dc3545',
@@ -13,3 +13,5 @@ export const dark: ColorStyle = {
   background: '#212529',
   disabled: '#343a40',
 };
+
+export default dark;

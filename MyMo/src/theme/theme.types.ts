@@ -14,8 +14,3 @@ export type Color =
 export type ColorStyle = {
   [key in Color]: string;
 };
-
-export type Theme = {
-  light: ColorStyle;
-  dark: ColorStyle;
-};

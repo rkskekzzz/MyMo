@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
-import theme from '../theme';
+import { light, dark } from '../theme';
+import type { DefaultTheme } from 'styled-components';
 
 const useTheme = () => {
-  const mode = useColorScheme();
-  const [currentTheme, setCurrentTheme] = useState(theme[mode === 'dark' ? 'dark' : 'light']);
+  const mode = useColorScheme() === 'dark' ? 'dark' : 'light';
+  const [theme, setTheme] = useState<DefaultTheme>({ light, dark, mode });
 
   useEffect(() => {
-    if (mode) setCurrentTheme(theme[mode]);
+    setTheme((prev) => ({ ...prev, mode }));
   }, [mode]);
 
-  return { currentTheme };
+  return { theme };
 };
 
 export default useTheme;
