@@ -5,15 +5,14 @@ export class Task extends Realm.Object {
   isComplete!: boolean; // isSynced
   createdAt!: Date;
   updatedAt!: Date;
-  parentUpdatedAt?: Date;
 
   static generate(content: string) {
     return {
       _id: new Realm.BSON.ObjectId().toHexString(),
       content,
+      isComplete: false,
       createdAt: new Date(),
       updatedAt: new Date(),
-      parentUpdatedAt: null,
     };
   }
 

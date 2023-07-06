@@ -2,6 +2,7 @@ import { styled } from 'styled-components/native';
 import { Footer } from '../footer';
 import { useQuery } from '@realm/react';
 import { Task } from '../../models/Memo';
+import { useStatus } from 'hooks';
 import type { StackScreenProps } from '../navigation';
 
 const StyledView = styled.View`
@@ -10,6 +11,7 @@ const StyledView = styled.View`
 const StyledText = styled.Text``;
 
 const Memos = ({ navigation }: StackScreenProps) => {
+  const { dispatch } = useStatus();
   const tasks = useQuery(Task);
 
   return (
@@ -19,8 +21,8 @@ const Memos = ({ navigation }: StackScreenProps) => {
           <StyledText
             key={index}
             onPress={() => {
-              console.log(task._id);
-              navigation.navigate('memo', { task });
+              dispatch({ type: 'SET_TASK', newTask: task });
+              navigation.navigate('memo');
             }}
           >
             {task.content}

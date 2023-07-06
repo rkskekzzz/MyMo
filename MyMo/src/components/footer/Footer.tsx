@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
-import { FooterMode } from './Footer.type';
-import { HStack, ZStack } from '../stack';
-import { getColorByTheme } from '../../utils';
 import { useNavigation } from '@react-navigation/native';
-import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { HStack, ZStack } from '@components/stack';
+import { useRealm } from '@realm/react';
+import { Task } from 'models';
+import { useStatus } from 'hooks';
+import { getColorByTheme } from 'utils';
+import { Alert } from 'react-native';
+import type { FooterMode } from './Footer.type';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '../navigation';
-import { useObject, useRealm } from '@realm/react';
-import { Task } from '../../models/Memo';
-import useStatus from '../../hooks/useState';
+import type { RootStackParamList } from '@components/navigation';
 
 const StyledFooter = styled.View`
   position: absolute;
@@ -43,26 +44,38 @@ const Footer = ({ mode }: Props) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const realm = useRealm();
   const insets = useSafeAreaInsets();
-  const {
-    state: { task },
-  } = useStatus();
+  const { state, dispatch } = useStatus();
 
   const onPress = () => {
     realm.write(() => {
-      const newTask = Task.generate('newDescription');
-      realm.create('Task', newTask);
-      // task setting
+      const newTask = realm.create<Task>('Task', Task.generate('newDescription'));
+      dispatch({ type: 'SET_TASK', newTask });
+      navigation.navigate('memo');
     });
   };
 
-  const onDelete = () => {
-    if (task) {
-      realm.write(() => {
-        realm.delete(task);
-        // task clear
-      });
-    }
+  const onPressDelete = () => {
+    Alert.alert('메모를 삭제하시겠습니까?', '', [
+      {
+        text: 'Cancel',
+        style: 'destructive',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          realm.write(() => {
+            realm.delete(state.task);
+          });
+          dispatch({ type: 'CLEAR_TASK' });
+          navigation.goBack();
+        },
+      },
+    ]);
   };
+
+  useEffect(() => {
+    console.log(state.task);
+  }, [state.task]);
 
   return (
     <StyledFooter style={{ paddingBottom: insets.bottom }}>
@@ -74,7 +87,7 @@ const Footer = ({ mode }: Props) => {
             <Ionicons name="create-outline" size={24} color="black" />
           </StyledButton>
           {mode === 'inMemo' && (
-            <StyledButton>
+            <StyledButton onPress={onPressDelete}>
               <Ionicons name="ios-trash-bin-outline" size={24} color="black" />
             </StyledButton>
           )}

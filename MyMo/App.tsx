@@ -1,12 +1,12 @@
-import { View, SafeAreaView } from 'react-native';
+import { View } from 'react-native';
 import { ThemeProvider } from 'styled-components';
 import { NavigationContainer } from '@react-navigation/native';
-import { usePrepare, useTheme } from './src/hooks';
-import { Stack } from './src/components';
-import { schemas } from './src/models';
+import { usePrepare, useTheme } from 'hooks';
+import { Stack } from '@components/navigation';
+import { schemas } from 'models';
 import { RealmProvider } from '@realm/react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { StatusContext, statusContextInitialValue, statusContextReducer } from './src/context';
+import { StatusContext, statusContextInitialValue, statusContextReducer } from 'context';
 import { useReducer } from 'react';
 
 export default function App() {

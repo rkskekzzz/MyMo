@@ -3,3 +3,4 @@
 import { Task } from './Memo';
 
 export const schemas = [Task];
+export { Task };

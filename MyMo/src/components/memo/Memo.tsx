@@ -1,10 +1,12 @@
+import React from 'react';
 import { styled } from 'styled-components/native';
 import { Footer } from '../footer';
-import { useRealm, useObject } from '@realm/react';
-import { Task } from '../../models/Memo';
-import type { StackScreenProps } from '../navigation';
-import { useInput } from '../../hooks';
-import { useEffect } from 'react';
+import { useObject, useRealm } from '@realm/react';
+import { useStatus, useInput, useDebounce } from 'hooks';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '@components/navigation';
+import { Task } from 'models';
 
 const StyledView = styled.View`
   flex: 1;
@@ -13,23 +15,20 @@ const StyledText = styled.Text``;
 const StyledTouchableOpacity = styled.TouchableOpacity``;
 const StyledTextInput = styled.TextInput``;
 
-const Memo = ({ route }: StackScreenProps) => {
-  const task = route.params?.task;
-  if (!task) return null;
-  const { value, onChangeText } = useInput(task.content);
+const Memo = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const realm = useRealm();
+  const { state } = useStatus();
+  const taskObject = useObject(Task, state.task?._id ?? '');
+  const { value, onChangeText } = useInput(state.task?.content);
 
-  const onChange = (value: string) => {
-    if (task) {
+  useDebounce(() => {
+    if (taskObject) {
       realm.write(() => {
-        task.content = value;
-        console.log(task.content);
+        taskObject.updatedAt = new Date();
+        taskObject.content = value;
       });
     }
-  };
-
-  useEffect(() => {
-    onChange(value);
   }, [value]);
 
   return (
