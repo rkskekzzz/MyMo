@@ -1,8 +1,10 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { RealmContext } from '../../models';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+// import { RealmContext } from '../../models';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useQuery, useRealm } from '@realm/react';
+import { Task } from '../../models/Memo';
 
 type RootStackParamList = {
   memos: undefined;
@@ -19,12 +21,21 @@ const Test = ({ navigation }: Props) => {
   );
 };
 const Test2 = () => {
-  const { useRealm } = RealmContext;
+  // const { useRealm } = RealmContext;
   const realm = useRealm();
-  console.log(realm);
+  const tasks = useQuery(Task);
+  const onSubmit = () => {
+    realm.write(() => {
+      realm.create('Task', Task.generate('newDescription'));
+    });
+    console.log(tasks.length);
+  };
   return (
     <View style={{ flex: 1 }}>
-      <Text>Test One</Text>
+      <TextInput>Test One</TextInput>
+      <TouchableOpacity onPress={onSubmit}>
+        <Text>submit</Text>
+      </TouchableOpacity>
     </View>
   );
 };
