@@ -1,38 +1,19 @@
-// import { createRealmContext } from '@realm/react';
-// // Define your object model
-// export class Memo extends Realm.Object<Memo> {
-//   _id!: Realm.BSON.ObjectId;
-//   name!: string;
-//   static schema = {
-//     name: 'Memo',
-//     properties: {
-//       _id: 'objectId',
-//       content: 'string',
-//       update_at: 'string',
-//       parent_update_at: 'string',
-//     },
-//     primaryKey: '_id',
-//   };
-// }
-
-// const realmConfig: Realm.Configuration = {
-//   schema: [Memo],
-// };
-
-// export default createRealmContext(realmConfig);
-import 'react-native-get-random-values';
-import Realm, { BSON } from 'realm';
+import Realm from 'realm';
 export class Task extends Realm.Object {
-  _id!: Realm.BSON.ObjectId;
-  description!: string;
-  isComplete!: boolean;
+  _id!: string;
+  content!: string;
+  isComplete!: boolean; // isSynced
   createdAt!: Date;
+  updatedAt!: Date;
+  parentUpdatedAt?: Date;
 
-  static generate(description: string) {
+  static generate(content: string) {
     return {
-      _id: new Realm.BSON.ObjectId(),
-      description,
+      _id: new Realm.BSON.ObjectId().toHexString(),
+      content,
       createdAt: new Date(),
+      updatedAt: new Date(),
+      parentUpdatedAt: null,
     };
   }
 
@@ -40,10 +21,11 @@ export class Task extends Realm.Object {
     name: 'Task',
     primaryKey: '_id',
     properties: {
-      _id: 'objectId',
-      description: 'string',
+      _id: 'string',
+      content: 'string',
       isComplete: { type: 'bool', default: false },
       createdAt: 'date',
+      updatedAt: 'date',
     },
   };
 }
