@@ -1,0 +1,8 @@
+{
+  "title": "모아보기",
+  "footer-updating": "업데이트 중",
+  "alert-delete-title": "메모를 삭제하시겠습니까?",
+  "alert-delete-description": "삭제한 메모는 복구가 불가능합니다.",
+  "alert-delete-cancel": "취소",
+  "alert-delete-ok": "확인"
+}

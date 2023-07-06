@@ -9,6 +9,7 @@ import { Task } from 'models';
 import { useStatus } from 'hooks';
 import { getColorByTheme } from 'utils';
 import { Alert } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import type { FooterMode } from './Footer.type';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@components/navigation';
@@ -41,6 +42,7 @@ type Props = {
 
 const Footer = ({ mode }: Props) => {
   const [isCreate, setIsCreate] = useState(false);
+  const { t } = useTranslation();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const realm = useRealm();
   const insets = useSafeAreaInsets();
@@ -55,13 +57,13 @@ const Footer = ({ mode }: Props) => {
   };
 
   const onPressDelete = () => {
-    Alert.alert('메모를 삭제하시겠습니까?', '', [
+    Alert.alert(t('alert-delete-title'), t('alert-delete-description'), [
       {
-        text: 'Cancel',
+        text: t('alert-delete-cancel'),
         style: 'destructive',
       },
       {
-        text: 'OK',
+        text: t('alert-delete-ok'),
         onPress: () => {
           realm.write(() => {
             realm.delete(state.task);
@@ -81,7 +83,7 @@ const Footer = ({ mode }: Props) => {
     <StyledFooter style={{ paddingBottom: insets.bottom }}>
       <ZStack>
         {mode === 'inMemos' && <StyledText>4개의 메모</StyledText>}
-        {mode === 'inMemo' && <StyledText>업데이트 중...</StyledText>}
+        {mode === 'inMemo' && <StyledText>{t('footer-updating')}</StyledText>}
         <HStack>
           <StyledButton onPress={onPress}>
             <Ionicons name="create-outline" size={24} color="black" />
