@@ -1,18 +1,14 @@
-import { Text, View } from 'react-native';
-import { usePrepare, useTheme } from './src/hooks';
-import Entypo from '@expo/vector-icons/Entypo';
+import { View } from 'react-native';
 import { ThemeProvider } from 'styled-components';
-import { getColorByTheme } from './src/utils';
-import styled from 'styled-components/native';
-import { Stack } from './src/components';
 import { NavigationContainer } from '@react-navigation/native';
-
-const StyledText = styled.Text`
-  color: ${({ theme }) => getColorByTheme(theme).textPrimary};
-`;
+import { usePrepare, useTheme } from './src/hooks';
+import { Stack } from './src/components';
+import { RealmContext } from './src/models';
 
 export default function App() {
   const { appIsReady, onLayoutRootView } = usePrepare();
+  const { RealmProvider } = RealmContext;
+
   const { theme } = useTheme();
 
   if (!appIsReady) {
@@ -22,8 +18,10 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer>
-        <View onLayout={onLayoutRootView} />
-        <Stack />
+        <RealmProvider>
+          <View onLayout={onLayoutRootView} />
+          <Stack />
+        </RealmProvider>
       </NavigationContainer>
     </ThemeProvider>
   );

@@ -9,15 +9,16 @@ const usePrepare = () => {
   const [appIsReady, setAppIsReady] = useState(false);
 
   useEffect(() => {
-    async function prepare() {
+    const prepare = async () => {
       try {
-        await Font.loadAsync(Ionicons.font);
+        const font = Font.loadAsync(Ionicons.font);
+        await Promise.all([font]);
       } catch (e) {
         console.warn(e);
       } finally {
         setAppIsReady(true);
       }
-    }
+    };
 
     prepare();
   }, []);

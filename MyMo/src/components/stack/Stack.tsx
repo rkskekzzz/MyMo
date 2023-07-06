@@ -1,15 +1,27 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, Text } from 'react-native';
+import { RealmContext } from '../../models';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-const Test = () => {
+type RootStackParamList = {
+  memos: undefined;
+  item: undefined;
+};
+
+type Props = NativeStackScreenProps<RootStackParamList, 'memos'>;
+
+const Test = ({ navigation }: Props) => {
   return (
     <View style={{ flex: 1 }}>
-      <Text>Test One</Text>
+      <Text onPress={() => navigation.navigate('item')}>Test One</Text>
     </View>
   );
 };
 const Test2 = () => {
+  const { useRealm } = RealmContext;
+  const realm = useRealm();
+  console.log(realm);
   return (
     <View style={{ flex: 1 }}>
       <Text>Test One</Text>
@@ -17,13 +29,13 @@ const Test2 = () => {
   );
 };
 
-const NativeStack = createNativeStackNavigator();
+const NativeStack = createNativeStackNavigator<RootStackParamList>();
 
 const Stack = () => {
   return (
-    <NativeStack.Navigator>
-      <NativeStack.Screen name="메모" component={Test} />
-      <NativeStack.Screen name="아이템" component={Test2} />
+    <NativeStack.Navigator initialRouteName="memos">
+      <NativeStack.Screen name="memos" component={Test} />
+      <NativeStack.Screen name="item" component={Test2} />
     </NativeStack.Navigator>
   );
 };
