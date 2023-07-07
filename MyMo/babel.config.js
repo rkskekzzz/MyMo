@@ -14,10 +14,10 @@ module.exports = function (api) {
             '@hooks/*': './src/hooks/*',
             '@models/*': './src/models/*',
             '@theme/*': './src/theme/*',
-            '@utils/*': './src/utils/*',
-          },
-        },
-      ],
-    ],
+            '@utils/*': './src/utils/*'
+          }
+        }
+      ]
+    ]
   };
 };
