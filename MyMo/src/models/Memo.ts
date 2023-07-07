@@ -1,4 +1,20 @@
 import Realm from 'realm';
+
+export interface CreateMemoDTO {
+  _id: string;
+  title: string;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface UpdateMemoDTO {
+  _id: string;
+  title: string;
+  content: string;
+  updatedAt: Date;
+}
+
 export class Memo extends Realm.Object {
   _id!: string;
   title!: string;
@@ -14,7 +30,7 @@ export class Memo extends Realm.Object {
       content: '',
       isSync: false,
       createdAt: new Date(),
-      updatedAt: new Date(),
+      updatedAt: new Date()
     };
   }
 
@@ -27,7 +43,7 @@ export class Memo extends Realm.Object {
       content: 'string',
       isSync: { type: 'bool', default: false },
       createdAt: 'date',
-      updatedAt: 'date',
-    },
+      updatedAt: 'date'
+    }
   };
 }
