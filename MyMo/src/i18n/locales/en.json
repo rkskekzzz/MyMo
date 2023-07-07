@@ -1,5 +1,6 @@
 {
   "title": "Feed",
+  "memo-list-title-placeholder": "new Memo",
   "footer-updating": "updating",
   "footer-count-of-memos": " Memos",
   "editor-title-placeholder": "Please enter the title",
