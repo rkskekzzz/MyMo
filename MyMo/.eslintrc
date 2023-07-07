@@ -22,5 +22,10 @@
     "browser": true,
     "node": true,
     "react-native/react-native": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }
