@@ -19,7 +19,7 @@ export class Memo extends Realm.Object {
   _id!: string;
   title!: string;
   content!: string;
-  isSync!: boolean;
+  isUploaded!: boolean;
   createdAt!: Date;
   updatedAt!: Date;
 
@@ -28,7 +28,7 @@ export class Memo extends Realm.Object {
       _id: new Realm.BSON.ObjectId().toHexString(),
       title: '',
       content: '',
-      isSync: false,
+      isUploaded: false,
       createdAt: new Date(),
       updatedAt: new Date()
     };
@@ -41,7 +41,7 @@ export class Memo extends Realm.Object {
       _id: 'string',
       title: 'string',
       content: 'string',
-      isSync: { type: 'bool', default: false },
+      isUploaded: { type: 'bool', default: false },
       createdAt: 'date',
       updatedAt: 'date'
     }

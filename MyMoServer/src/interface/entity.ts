@@ -2,7 +2,7 @@ export interface Memo {
   _id: string;
   title: string;
   content: string;
-  isSync: boolean;
+  isUploaded: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

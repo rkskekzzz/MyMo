@@ -13,8 +13,9 @@ const schema = new Schema<Memo>(
     content: {
       type: String
     },
-    isSync: {
+    isUploaded: {
       type: Boolean,
+      default: true,
       required: true
     },
     createdAt: {
