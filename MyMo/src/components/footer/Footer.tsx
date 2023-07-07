@@ -52,8 +52,8 @@ const Footer = ({ mode }: Props) => {
     realm.write(() => {
       if (mode === 'MemoView') navigation.goBack();
       navigation.navigate('MemoView');
-      const newTask = realm.create<Memo>('Memo', Memo.generate());
-      dispatch({ type: 'SET_TASK', newTask });
+      const newMemo = realm.create<Memo>('Memo', Memo.generate());
+      dispatch({ type: 'SET_MEMO', newMemo });
     });
   };
 
@@ -67,10 +67,10 @@ const Footer = ({ mode }: Props) => {
         text: t('alert-delete-ok'),
         onPress: () => {
           realm.write(() => {
-            realm.delete(state.task);
+            realm.delete(state.memo);
           });
           navigation.goBack();
-          dispatch({ type: 'CLEAR_TASK' });
+          dispatch({ type: 'CLEAR_MEMO' });
         },
       },
     ]);
@@ -79,7 +79,9 @@ const Footer = ({ mode }: Props) => {
   return (
     <StyledFooter style={{ paddingBottom: insets.bottom }}>
       <ZStack>
-        {mode === 'MemoListView' && <StyledText>{count + t('footer-count-of-memos')</StyledText>}
+        {mode === 'MemoListView' && (
+          <StyledText>{state.count + t('footer-count-of-memos')}</StyledText>
+        )}
         {mode === 'MemoView' && <StyledText>{t('footer-updating')}</StyledText>}
         <HStack>
           <StyledButton onPress={onPress}>

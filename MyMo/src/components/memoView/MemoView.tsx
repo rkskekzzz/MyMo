@@ -16,9 +16,9 @@ const MemoView = () => {
   const { state, dispatch } = useStatus();
   const realm = useRealm();
   const contentRef = useRef<TextInput>(null);
-  const taskObject = useObject(Memo, state.task?._id ?? '');
-  const { value: title, onChangeText: onChangeTitle } = useInput(state.task?.title);
-  const { value: content, onChangeText: onChangeContent } = useInput(state.task?.content);
+  const taskObject = useObject(Memo, state.memo?._id ?? '');
+  const { value: title, onChangeText: onChangeTitle } = useInput(state.memo?.title);
+  const { value: content, onChangeText: onChangeContent } = useInput(state.memo?.content);
 
   const onPressIn = () => {
     if (!state.isEdit) dispatch({ type: 'TO_EDIT_MODE' });

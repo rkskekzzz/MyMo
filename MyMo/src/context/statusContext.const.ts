@@ -1,8 +1,9 @@
 import type { State } from './statusContext.type';
 
 const statusContextInitialValue: State = {
-  task: null,
+  memo: null,
   isEdit: false,
+  count: 0,
 };
 
 export default statusContextInitialValue;
