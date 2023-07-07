@@ -15,6 +15,11 @@ export interface UpdateMemoDTO {
   updatedAt: Date;
 }
 
+export interface DeleteMemoDto {
+  _id: string;
+  deletedAt: Date;
+}
+
 export class Memo extends Realm.Object {
   _id!: string;
   title!: string;

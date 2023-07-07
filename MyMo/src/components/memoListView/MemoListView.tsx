@@ -1,9 +1,6 @@
 import { styled } from 'styled-components/native';
 import { Footer } from '../footer';
-import { useQuery } from '@realm/react';
-import { Memo } from '../../models/Memo';
-import { useStatus, useMemoList } from 'hooks';
-import { useEffect, useMemo } from 'react';
+import { useStatus, useMemos } from 'hooks';
 import { t } from 'i18next';
 import type { StackScreenProps } from '../navigation';
 
@@ -14,22 +11,15 @@ const StyledText = styled.Text``;
 
 const MemoListView = ({ navigation }: StackScreenProps) => {
   const { dispatch } = useStatus();
-  const { getAll } = useMemoList();
-  const memos = useQuery(Memo); // 로컬에서 전체 메모 가져오기
+  const { filteredMemos } = useMemos();
 
-  useEffect(() => {
-    dispatch({ type: 'SET_COUNT', newCount: memos.length });
-  }, [memos]);
-
-  useEffect(() => {
-    navigation.addListener('focus', () => {
-      getAll();
-    });
-  }, []);
+  // useFocusEffect(() => {
+  //   console.log('hihi');
+  // });
 
   return (
-    <StyledView style={{ flex: 1 }}>
-      {memos.map((memo, index) => {
+    <StyledView>
+      {filteredMemos.map((memo, index) => {
         return (
           <StyledText
             key={index}

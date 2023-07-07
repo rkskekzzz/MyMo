@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { styled } from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
-
+import { onlineManager } from '@tanstack/query-core';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HStack, ZStack } from '@components/stack';
-import { useRealm } from '@realm/react';
-import { Memo } from 'models';
 import { useStatus, useNavigation, useMemos } from 'hooks';
 import { getColorByTheme } from 'utils';
 import { Alert } from 'react-native';
@@ -32,7 +30,19 @@ const StyledText = styled.Text`
   align-items: center;
   text-align: center;
 `;
+const StyledText2 = styled.Text``;
 const StyledButton = styled.TouchableOpacity``;
+const StyledView = styled.View`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: row;
+`;
 
 type Props = {
   mode: FooterMode;
@@ -73,7 +83,16 @@ const Footer = ({ mode }: Props) => {
         {mode === 'MemoListView' && (
           <StyledText>{state.count + t('footer-count-of-memos')}</StyledText>
         )}
-        {mode === 'MemoView' && <StyledText>{t('footer-updating')}</StyledText>}
+        {mode === 'MemoView' && (
+          <StyledView>
+            {onlineManager.isOnline() ? (
+              <Ionicons name="cloud-done-sharp" size={20} color="black" />
+            ) : (
+              <Ionicons name="cloud-offline-sharp" size={20} color="black" />
+            )}
+            <StyledText2>{t('footer-updating')}</StyledText2>
+          </StyledView>
+        )}
         <HStack>
           <StyledButton onPress={onPressCreate}>
             <Ionicons name="create-outline" size={24} color="black" />

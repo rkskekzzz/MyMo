@@ -1,5 +1,6 @@
 import MymoAxiosInstance from './instance';
-import type { UpdateMemoDTO, CreateMemoDTO } from 'models';
+import type { UpdateMemoDTO, CreateMemoDTO, DeleteMemoDto } from 'models';
+
 const MemoController = {
   getAll: async () => {
     try {
@@ -33,9 +34,9 @@ const MemoController = {
       console.log(error);
     }
   },
-  delete: async (memo_id: string) => {
+  remove: async (deleteMemoDto: DeleteMemoDto) => {
     try {
-      const response = await MymoAxiosInstance.delete(`/${memo_id}`);
+      const response = await MymoAxiosInstance.put('/', deleteMemoDto);
       return response.data;
     } catch (error) {
       console.log(error);

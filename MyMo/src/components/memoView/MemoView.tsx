@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { styled } from 'styled-components/native';
 import { Footer } from '../footer';
 import { useStatus, useInput, useDebounce, useMemos } from 'hooks';
@@ -7,7 +7,7 @@ import { TextInput } from 'react-native';
 const StyledView = styled.View`
   flex: 1;
 `;
-const StyledText = styled.Text``;
+// const StyledText = styled.Text``;
 const StyledTextInput = styled(TextInput)``;
 
 const MemoView = () => {
@@ -32,7 +32,7 @@ const MemoView = () => {
   }, [title, content]);
 
   return (
-    <StyledView style={{ flex: 1 }}>
+    <StyledView>
       <StyledTextInput
         autoFocus
         placeholder="title"
