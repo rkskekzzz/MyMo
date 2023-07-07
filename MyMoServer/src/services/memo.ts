@@ -1,4 +1,4 @@
-import { CreateMemoDTO, UpdateMemoDTO } from '../interface/dto';
+import { CreateMemoDTO, DeleteMemoDTO, UpdateMemoDTO } from '../interface/dto';
 import ApiError from '../modules/error';
 import { Memo } from '../interface/entity';
 import { MemoModel } from '../db';
@@ -31,9 +31,9 @@ async function update(updateMemoDTO: UpdateMemoDTO): Promise<Memo> {
   }
 }
 
-async function remove(memo_id: string): Promise<void> {
+async function remove(deleteMemoDTO: DeleteMemoDTO): Promise<Memo> {
   try {
-    const memo = await MemoModel.findById(memo_id);
+    const memo = await MemoModel.findById(deleteMemoDTO._id);
     if (!memo) {
       throw new ApiError(404, 'Error : Memo Not Found');
     }
@@ -41,9 +41,11 @@ async function remove(memo_id: string): Promise<void> {
     const now = new Date();
 
     memo.syncedAt = now;
-    memo.deletedAt = now;
+    memo.deletedAt = deleteMemoDTO.deletedAt;
 
-    await memo.save();
+    const deletedMemo = await memo.save();
+
+    return deletedMemo;
   } catch (error) {
     throw new ApiError(500, 'Error : Deleting Memo');
   }

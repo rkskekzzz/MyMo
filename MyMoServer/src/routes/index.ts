@@ -9,6 +9,6 @@ router.get('/', MemoController.getAll);
 router.get('/:memo_id', MemoController.getOne);
 router.post('/', MemoController.create);
 router.patch('/', MemoController.update);
-router.delete('/:memo_id', MemoController.remove);
+router.delete('/', MemoController.remove);
 
 export default router;

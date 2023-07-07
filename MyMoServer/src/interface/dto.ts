@@ -12,3 +12,8 @@ export class UpdateMemoDTO {
   content!: string;
   updatedAt!: Date;
 }
+
+export class DeleteMemoDTO {
+  _id!: string;
+  deletedAt!: Date;
+}
