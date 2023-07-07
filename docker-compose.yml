@@ -1,0 +1,35 @@
+version: '3'
+services:
+    db:
+        container_name: db
+        image: mongo:latest
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+            MONGO_INITDB_DATABASE: mymo
+        expose:
+            - 27017m
+        ports:
+            - '27017:27017'
+        volumes:
+            - ${MONGO_MOUNT_PATH}:/data/db
+        networks:
+            - service_network
+        restart: always
+
+    backend:
+        container_name: backend
+        build:
+            context: .
+            dockerfile: ${DOCKERFILE}
+        depends_on:
+            - db
+        ports:
+            - 5500:5500
+        networks:
+            - service_network
+        restart: always
+
+networks:
+    service_network:
+        driver: bridge
