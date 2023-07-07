@@ -8,8 +8,10 @@ const statusContextReducer = (state: State, action: Action) => {
     //   return { ...state, task: { ...state.task, ...action.newContent } }
     case 'CLEAR_TASK':
       return { ...state, task: null };
-    case 'SET_IS_EDIT':
-      return { ...state, isEdit: action.newIsEdit };
+    case 'TO_EDIT_MODE':
+      return { ...state, isEdit: true };
+    case 'TO_READ_MODE':
+      return { ...state, isEdit: false };
     default:
       return state;
   }

@@ -1,12 +1,13 @@
-import type { Task } from '../models/Memo';
+import type { Memo } from '../models/Memo';
 
 export type State = {
-  task: Task | null;
+  task: Memo | null;
   isEdit: boolean;
 };
 
 export type Action =
-  | { type: 'SET_TASK'; newTask: Task }
+  | { type: 'SET_TASK'; newTask: Memo }
   | { type: 'UPDATE_TASK'; newContent: string; updateAt: Date }
   | { type: 'CLEAR_TASK' }
-  | { type: 'SET_IS_EDIT'; newIsEdit: boolean };
+  | { type: 'TO_EDIT_MODE' }
+  | { type: 'TO_READ_MODE' };

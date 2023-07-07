@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HStack, ZStack } from '@components/stack';
 import { useRealm } from '@realm/react';
-import { Task } from 'models';
+import { Memo } from 'models';
 import { useStatus } from 'hooks';
 import { getColorByTheme } from 'utils';
 import { Alert } from 'react-native';
@@ -50,9 +50,10 @@ const Footer = ({ mode }: Props) => {
 
   const onPress = () => {
     realm.write(() => {
-      const newTask = realm.create<Task>('Task', Task.generate('newDescription'));
+      if (mode === 'MemoView') navigation.goBack();
+      navigation.navigate('MemoView');
+      const newTask = realm.create<Memo>('Memo', Memo.generate());
       dispatch({ type: 'SET_TASK', newTask });
-      navigation.navigate('memo');
     });
   };
 
@@ -68,27 +69,23 @@ const Footer = ({ mode }: Props) => {
           realm.write(() => {
             realm.delete(state.task);
           });
-          dispatch({ type: 'CLEAR_TASK' });
           navigation.goBack();
+          dispatch({ type: 'CLEAR_TASK' });
         },
       },
     ]);
   };
 
-  useEffect(() => {
-    console.log(state.task);
-  }, [state.task]);
-
   return (
     <StyledFooter style={{ paddingBottom: insets.bottom }}>
       <ZStack>
-        {mode === 'inMemos' && <StyledText>4개의 메모</StyledText>}
-        {mode === 'inMemo' && <StyledText>{t('footer-updating')}</StyledText>}
+        {mode === 'MemoListView' && <StyledText>4개의 메모</StyledText>}
+        {mode === 'MemoView' && <StyledText>{t('footer-updating')}</StyledText>}
         <HStack>
           <StyledButton onPress={onPress}>
             <Ionicons name="create-outline" size={24} color="black" />
           </StyledButton>
-          {mode === 'inMemo' && (
+          {mode === 'MemoView' && (
             <StyledButton onPress={onPressDelete}>
               <Ionicons name="ios-trash-bin-outline" size={24} color="black" />
             </StyledButton>

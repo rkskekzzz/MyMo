@@ -1,1 +1,1 @@
-export type FooterMode = 'inMemos' | 'inMemo';
+export type FooterMode = 'MemoListView' | 'MemoView';

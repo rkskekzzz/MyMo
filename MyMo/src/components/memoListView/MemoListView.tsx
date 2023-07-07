@@ -1,7 +1,7 @@
 import { styled } from 'styled-components/native';
 import { Footer } from '../footer';
 import { useQuery } from '@realm/react';
-import { Task } from '../../models/Memo';
+import { Memo } from '../../models/Memo';
 import { useStatus } from 'hooks';
 import type { StackScreenProps } from '../navigation';
 
@@ -10,9 +10,9 @@ const StyledView = styled.View`
 `;
 const StyledText = styled.Text``;
 
-const Memos = ({ navigation }: StackScreenProps) => {
+const MemoListView = ({ navigation }: StackScreenProps) => {
   const { dispatch } = useStatus();
-  const tasks = useQuery(Task);
+  const tasks = useQuery(Memo);
 
   return (
     <StyledView style={{ flex: 1 }}>
@@ -22,16 +22,16 @@ const Memos = ({ navigation }: StackScreenProps) => {
             key={index}
             onPress={() => {
               dispatch({ type: 'SET_TASK', newTask: task });
-              navigation.navigate('memo');
+              navigation.navigate('MemoView');
             }}
           >
             {task.content}
           </StyledText>
         );
       })}
-      <Footer mode="inMemos" />
+      <Footer mode="MemoListView" />
     </StyledView>
   );
 };
 
-export default Memos;
+export default MemoListView;

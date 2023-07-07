@@ -1,6 +1,7 @@
 {
   "title": "Feed",
   "footer-updating": "updating",
+  "header-done": "done",
   "alert-delete-title": "Are you sure you want to delete?",
   "alert-delete-description": "Deleted notes are not recoverable.",
   "alert-delete-cancel": "Cancel",

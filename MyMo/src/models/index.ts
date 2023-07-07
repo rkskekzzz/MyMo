@@ -1,6 +1,4 @@
-// export { default as RealmContext } from './Memo';
+import { Memo } from './Memo';
 
-import { Task } from './Memo';
-
-export const schemas = [Task];
-export { Task };
+export const schemas = [Memo];
+export { Memo };

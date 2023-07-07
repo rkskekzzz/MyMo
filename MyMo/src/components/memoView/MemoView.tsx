@@ -6,7 +6,7 @@ import { useStatus, useInput, useDebounce } from 'hooks';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@components/navigation';
-import { Task } from 'models';
+import { Memo } from 'models';
 
 const StyledView = styled.View`
   flex: 1;
@@ -15,12 +15,16 @@ const StyledText = styled.Text``;
 const StyledTouchableOpacity = styled.TouchableOpacity``;
 const StyledTextInput = styled.TextInput``;
 
-const Memo = () => {
+const MemoView = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const realm = useRealm();
-  const { state } = useStatus();
-  const taskObject = useObject(Task, state.task?._id ?? '');
+  const { state, dispatch } = useStatus();
+  const taskObject = useObject(Memo, state.task?._id ?? '');
   const { value, onChangeText } = useInput(state.task?.content);
+
+  const onPressIn = () => {
+    if (!state.isEdit) dispatch({ type: 'TO_EDIT_MODE' });
+  };
 
   useDebounce(() => {
     if (taskObject) {
@@ -33,15 +37,17 @@ const Memo = () => {
 
   return (
     <StyledView style={{ flex: 1 }}>
-      <StyledTextInput multiline onChangeText={onChangeText}>
+      <StyledTextInput
+        multiline
+        onChangeText={onChangeText}
+        editable={state.isEdit}
+        onPressIn={onPressIn}
+      >
         {value}
       </StyledTextInput>
-      <StyledTouchableOpacity onPress={() => {}}>
-        <StyledText>submit</StyledText>
-      </StyledTouchableOpacity>
-      <Footer mode="inMemo" />
+      <Footer mode="MemoView" />
     </StyledView>
   );
 };
 
-export default Memo;
+export default MemoView;

@@ -1,8 +1,11 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
-  memos: undefined;
-  memo: undefined;
+  MemoListView: undefined;
+  MemoView: undefined;
 };
 
-export type StackScreenProps = NativeStackScreenProps<RootStackParamList, 'memos' | 'memo'>;
+export type StackScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'MemoListView' | 'MemoView'
+>;

@@ -1,3 +1,3 @@
 export * from './navigation';
-export * from './memos';
+export * from './memoListView';
 export * from './footer';

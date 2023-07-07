@@ -1,28 +1,31 @@
 import Realm from 'realm';
-export class Task extends Realm.Object {
+export class Memo extends Realm.Object {
   _id!: string;
+  title!: string;
   content!: string;
-  isComplete!: boolean; // isSynced
+  isSync!: boolean;
   createdAt!: Date;
   updatedAt!: Date;
 
-  static generate(content: string) {
+  static generate() {
     return {
       _id: new Realm.BSON.ObjectId().toHexString(),
-      content,
-      isComplete: false,
+      title: '',
+      content: '',
+      isSync: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
   }
 
   static schema = {
-    name: 'Task',
+    name: 'Memo',
     primaryKey: '_id',
     properties: {
       _id: 'string',
+      title: 'string',
       content: 'string',
-      isComplete: { type: 'bool', default: false },
+      isSync: { type: 'bool', default: false },
       createdAt: 'date',
       updatedAt: 'date',
     },
