@@ -1,9 +1,7 @@
 import React, { useRef } from 'react';
 import { styled } from 'styled-components/native';
 import { Footer } from '../footer';
-import { useObject, useRealm } from '@realm/react';
-import { useStatus, useInput, useDebounce } from 'hooks';
-import { Memo } from 'models';
+import { useStatus, useInput, useDebounce, useMemos } from 'hooks';
 import { TextInput } from 'react-native';
 
 const StyledView = styled.View`
@@ -13,10 +11,9 @@ const StyledText = styled.Text``;
 const StyledTextInput = styled(TextInput)``;
 
 const MemoView = () => {
-  const { state, dispatch } = useStatus();
-  const realm = useRealm();
   const contentRef = useRef<TextInput>(null);
-  const taskObject = useObject(Memo, state.memo?._id ?? '');
+  const { update } = useMemos();
+  const { state, dispatch } = useStatus();
   const { value: title, onChangeText: onChangeTitle } = useInput(state.memo?.title);
   const { value: content, onChangeText: onChangeContent } = useInput(state.memo?.content);
 
@@ -31,13 +28,7 @@ const MemoView = () => {
   };
 
   useDebounce(() => {
-    if (taskObject) {
-      realm.write(() => {
-        taskObject.updatedAt = new Date();
-        taskObject.title = title;
-        taskObject.content = content;
-      });
-    }
+    update(title, content);
   }, [title, content]);
 
   return (

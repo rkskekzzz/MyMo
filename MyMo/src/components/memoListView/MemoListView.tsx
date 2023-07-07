@@ -3,9 +3,9 @@ import { Footer } from '../footer';
 import { useQuery } from '@realm/react';
 import { Memo } from '../../models/Memo';
 import { useStatus, useMemoList } from 'hooks';
-import type { StackScreenProps } from '../navigation';
 import { useEffect, useMemo } from 'react';
 import { t } from 'i18next';
+import type { StackScreenProps } from '../navigation';
 
 const StyledView = styled.View`
   flex: 1;
