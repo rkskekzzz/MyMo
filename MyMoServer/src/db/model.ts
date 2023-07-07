@@ -8,12 +8,10 @@ const schema = new Schema<Memo>(
       required: true
     },
     title: {
-      type: String,
-      required: true
+      type: String
     },
     content: {
-      type: String,
-      required: true
+      type: String
     },
     isSync: {
       type: Boolean,

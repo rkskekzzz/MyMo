@@ -8,7 +8,7 @@ const router: Router = Router();
 router.get('/', MemoController.getAll);
 router.get('/:memo_id', MemoController.getOne);
 router.post('/', MemoController.create);
-router.patch('/:memo_id', MemoController.update);
+router.patch('/', MemoController.update);
 router.delete('/:memo_id', MemoController.remove);
 
 export default router;
