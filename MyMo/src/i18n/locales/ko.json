@@ -1,7 +1,11 @@
 {
   "title": "모아보기",
   "footer-updating": "업데이트 중",
+  "footer-count-of-memos": "개의 메모",
+  "editor-title-placeholder": "제목을 입력하세요",
+  "editor-content-placeholder": "내용을 입력하세요",
   "header-done": "완료",
+  "header-memo-list-title": "모든 메모",
   "alert-delete-title": "메모를 삭제하시겠습니까?",
   "alert-delete-description": "삭제한 메모는 복구가 불가능합니다.",
   "alert-delete-cancel": "취소",

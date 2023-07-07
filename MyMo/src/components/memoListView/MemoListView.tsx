@@ -25,7 +25,7 @@ const MemoListView = ({ navigation }: StackScreenProps) => {
               navigation.navigate('MemoView');
             }}
           >
-            {task.content}
+            {task.title}
           </StyledText>
         );
       })}

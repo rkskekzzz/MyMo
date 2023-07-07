@@ -1,7 +1,11 @@
 {
   "title": "Feed",
   "footer-updating": "updating",
+  "footer-count-of-memos": " Memos",
+  "editor-title-placeholder": "Please enter the title",
+  "editor-content-placeholder": "Please enter your content",
   "header-done": "done",
+  "header-memo-list-title": "Feed",
   "alert-delete-title": "Are you sure you want to delete?",
   "alert-delete-description": "Deleted notes are not recoverable.",
   "alert-delete-cancel": "Cancel",

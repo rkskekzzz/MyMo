@@ -79,7 +79,7 @@ const Footer = ({ mode }: Props) => {
   return (
     <StyledFooter style={{ paddingBottom: insets.bottom }}>
       <ZStack>
-        {mode === 'MemoListView' && <StyledText>4개의 메모</StyledText>}
+        {mode === 'MemoListView' && <StyledText>{count + t('footer-count-of-memos')</StyledText>}
         {mode === 'MemoView' && <StyledText>{t('footer-updating')}</StyledText>}
         <HStack>
           <StyledButton onPress={onPress}>
