@@ -5,7 +5,7 @@ import { MemoModel } from '../db';
 
 async function create(CreateMemoDTO: CreateMemoDTO): Promise<Memo> {
   try {
-    return MemoModel.create(CreateMemoDTO);
+    return MemoModel.create({ ...CreateMemoDTO, syncedAt: new Date() });
   } catch (error) {
     throw new ApiError(500, 'Error : Saving Memo');
   }
@@ -21,6 +21,7 @@ async function update(updateMemoDTO: UpdateMemoDTO): Promise<Memo> {
     memo.title = updateMemoDTO.title;
     memo.content = updateMemoDTO.content;
     memo.updatedAt = updateMemoDTO.updatedAt;
+    memo.syncedAt = new Date();
 
     const updatedMemo = await memo.save();
 
@@ -37,7 +38,12 @@ async function remove(memo_id: string): Promise<void> {
       throw new ApiError(404, 'Error : Memo Not Found');
     }
 
-    await memo.remove();
+    const now = new Date();
+
+    memo.syncedAt = now;
+    memo.deletedAt = now;
+
+    await memo.save();
   } catch (error) {
     throw new ApiError(500, 'Error : Deleting Memo');
   }

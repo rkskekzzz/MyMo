@@ -3,6 +3,8 @@ export interface Memo {
   title: string;
   content: string;
   isUploaded: boolean;
+  syncedAt: Date;
   createdAt: Date;
   updatedAt: Date;
+  deletedAt?: Date;
 }

@@ -13,9 +13,8 @@ const schema = new Schema<Memo>(
     content: {
       type: String
     },
-    isUploaded: {
-      type: Boolean,
-      default: true,
+    syncedAt: {
+      type: Date,
       required: true
     },
     createdAt: {
@@ -25,9 +24,12 @@ const schema = new Schema<Memo>(
     updatedAt: {
       type: Date,
       required: true
+    },
+    deletedAt: {
+      type: Date
     }
   },
-  { timestamps: true }
+  { timestamps: true, versionKey: false }
 );
 
 export default model<Memo>('Memo', schema);
