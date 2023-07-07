@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HStack, ZStack } from '@components/stack';
 import { useRealm } from '@realm/react';
 import { Memo } from 'models';
-import { useStatus } from 'hooks';
+import { useStatus, useNavigation, useMemos } from 'hooks';
 import { getColorByTheme } from 'utils';
 import { Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import type { FooterMode } from './Footer.type';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '@components/navigation';
 
 const StyledFooter = styled.View`
   position: absolute;
@@ -41,38 +39,31 @@ type Props = {
 };
 
 const Footer = ({ mode }: Props) => {
-  const [isCreate, setIsCreate] = useState(false);
-  const { t } = useTranslation();
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const realm = useRealm();
+  const { goBack, toMemoView } = useNavigation();
+  const { create, remove } = useMemos();
   const insets = useSafeAreaInsets();
   const { state, dispatch } = useStatus();
+  const { t } = useTranslation();
 
-  const onPress = () => {
-    realm.write(() => {
-      if (mode === 'MemoView') navigation.goBack();
-      navigation.navigate('MemoView');
-      const newMemo = realm.create<Memo>('Memo', Memo.generate());
-      dispatch({ type: 'SET_MEMO', newMemo });
-    });
+  const onPressCreate = () => {
+    toMemoView();
+    create();
   };
 
   const onPressDelete = () => {
     Alert.alert(t('alert-delete-title'), t('alert-delete-description'), [
       {
         text: t('alert-delete-cancel'),
-        style: 'destructive',
+        style: 'destructive'
       },
       {
         text: t('alert-delete-ok'),
         onPress: () => {
-          realm.write(() => {
-            realm.delete(state.memo);
-          });
-          navigation.goBack();
+          goBack();
+          remove();
           dispatch({ type: 'CLEAR_MEMO' });
-        },
-      },
+        }
+      }
     ]);
   };
 
@@ -84,7 +75,7 @@ const Footer = ({ mode }: Props) => {
         )}
         {mode === 'MemoView' && <StyledText>{t('footer-updating')}</StyledText>}
         <HStack>
-          <StyledButton onPress={onPress}>
+          <StyledButton onPress={onPressCreate}>
             <Ionicons name="create-outline" size={24} color="black" />
           </StyledButton>
           {mode === 'MemoView' && (
