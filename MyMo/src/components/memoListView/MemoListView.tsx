@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { styled } from 'styled-components/native';
 import { Footer } from '../footer';
 import { useStatus, useMemos } from 'hooks';
@@ -12,10 +13,6 @@ const StyledText = styled.Text``;
 const MemoListView = ({ navigation }: StackScreenProps) => {
   const { dispatch } = useStatus();
   const { filteredMemos } = useMemos();
-
-  // useFocusEffect(() => {
-  //   console.log('hihi');
-  // });
 
   return (
     <StyledView>

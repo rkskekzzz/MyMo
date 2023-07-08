@@ -3,12 +3,6 @@ import { useEffect } from 'react';
 import { Memo } from 'models';
 import { UpdateMemoDTO } from 'models';
 
-const useMemoList = () => {
-  const getAll = async () => {};
-
-  useEffect(() => {}, []);
-
-  return { getAll };
-};
+const useMemoList = () => {};
 
 export default useMemoList;

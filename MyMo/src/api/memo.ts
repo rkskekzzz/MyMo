@@ -1,10 +1,10 @@
 import MymoAxiosInstance from './instance';
-import type { UpdateMemoDTO, CreateMemoDTO, DeleteMemoDto } from 'models';
+import { type UpdateMemoDTO, type CreateMemoDTO, type DeleteMemoDto, Memo } from 'models';
 
 const MemoController = {
   getAll: async () => {
     try {
-      const response = await MymoAxiosInstance.get('/');
+      const response = await MymoAxiosInstance.get<Memo[]>('/');
       return response.data;
     } catch (error) {
       console.log(error);
@@ -12,7 +12,7 @@ const MemoController = {
   },
   getOne: async (memo_id: string) => {
     try {
-      const response = await MymoAxiosInstance.get(`/${memo_id}`);
+      const response = await MymoAxiosInstance.get<Memo>(`/${memo_id}`);
       return response.data;
     } catch (error) {
       console.log(error);

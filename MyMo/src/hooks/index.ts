@@ -4,5 +4,6 @@ export { default as useInput } from './useInput';
 export { default as useStatus } from './useStatus';
 export { default as useDebounce } from './useDebounce';
 export { default as useMemoList } from './useMemoList';
-export { default as useMemos } from './useMemos';
 export { default as useNavigation } from './useNavigation';
+export { default as useNote } from './useNote';
+export { default as useNotes } from './useNotes';

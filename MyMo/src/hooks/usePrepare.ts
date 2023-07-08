@@ -7,16 +7,16 @@ import * as Font from 'expo-font';
 
 SplashScreen.preventAutoHideAsync();
 
-onlineManager.setEventListener((setOnline) => {
-  return NetInfo.addEventListener((state) => {
-    setOnline(!!state.isConnected);
-  });
-});
-
 const usePrepare = () => {
   const [appIsReady, setAppIsReady] = useState(false);
 
   useEffect(() => {
+    onlineManager.setEventListener((setOnline) => {
+      return NetInfo.addEventListener((state) => {
+        setOnline(!!state.isConnected);
+      });
+    });
+
     const prepare = async () => {
       try {
         const font = Font.loadAsync(Ionicons.font);
