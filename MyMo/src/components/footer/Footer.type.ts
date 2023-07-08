@@ -1,1 +1,1 @@
-export type FooterMode = 'MemoListView' | 'MemoView';
+export type FooterMode = 'NoteListView' | 'NoteView';

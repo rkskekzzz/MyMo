@@ -1,21 +1,21 @@
 import { onlineManager } from '@tanstack/react-query';
 import useStatus from './useStatus';
 import { useObject } from '@realm/react';
-import { Memo } from 'models';
-import { MemoController } from 'api';
+import { Note } from 'models';
+import { NoteController } from 'api';
 import { useQuery } from '@tanstack/react-query';
 
 const useSyncOne = () => {
   const { state } = useStatus();
-  const memo_id = state.memo?._id ?? '';
-  const memoByLocal = useObject(Memo, memo_id);
+  const note_id = state.note?._id ?? '';
+  const noteByLocal = useObject(Note, note_id);
   const {
     isLoading,
     isError,
-    data: memoByServer
+    data: noteByServer
   } = useQuery({
-    queryKey: ['memo', memo_id],
-    queryFn: () => MemoController.getOne(memo_id)
+    queryKey: ['note', note_id],
+    queryFn: () => NoteController.getOne(note_id)
   });
 };
 

@@ -1,2 +1,2 @@
 export { default as mongooseConnect } from './connect';
-export { default as MemoModel } from './model';
+export { default as NoteModel } from './model';

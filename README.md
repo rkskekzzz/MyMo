@@ -51,7 +51,7 @@ npm run ios
 
 ## To Do List
 
--   task로 된 네이밍 memo로 수정
+-   task로 된 네이밍 note로 수정
 -   백엔드 개발
 -   네트워크 레이어 구현
 -   메모 피드 무한스크롤 구현

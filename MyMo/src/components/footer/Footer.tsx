@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { onlineManager } from '@tanstack/query-core';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HStack, ZStack } from '@components/stack';
-import { useStatus, useNavigation, useMemos } from 'hooks';
+import { useStatus, useNavigation, useNotes } from 'hooks';
 import { getColorByTheme } from 'utils';
 import { Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -49,14 +49,14 @@ type Props = {
 };
 
 const Footer = ({ mode }: Props) => {
-  const { goBack, toMemoView } = useNavigation();
-  const { create, remove } = useMemos();
+  const { goBack, toNoteView } = useNavigation();
+  const { create, remove } = useNotes();
   const insets = useSafeAreaInsets();
   const { state, dispatch } = useStatus();
   const { t } = useTranslation();
 
   const onPressCreate = () => {
-    toMemoView();
+    toNoteView();
     create();
   };
 
@@ -71,7 +71,7 @@ const Footer = ({ mode }: Props) => {
         onPress: () => {
           goBack();
           remove();
-          dispatch({ type: 'CLEAR_MEMO' });
+          dispatch({ type: 'CLEAR_NOTE' });
         }
       }
     ]);
@@ -80,10 +80,10 @@ const Footer = ({ mode }: Props) => {
   return (
     <StyledFooter style={{ paddingBottom: insets.bottom }}>
       <ZStack>
-        {mode === 'MemoListView' && (
-          <StyledText>{state.count + t('footer-count-of-memos')}</StyledText>
+        {mode === 'NoteListView' && (
+          <StyledText>{state.count + t('footer-count-of-notes')}</StyledText>
         )}
-        {mode === 'MemoView' && (
+        {mode === 'NoteView' && (
           <StyledView>
             {onlineManager.isOnline() ? (
               <Ionicons name="cloud-done-sharp" size={20} color="black" />
@@ -97,7 +97,7 @@ const Footer = ({ mode }: Props) => {
           <StyledButton onPress={onPressCreate}>
             <Ionicons name="create-outline" size={24} color="black" />
           </StyledButton>
-          {mode === 'MemoView' && (
+          {mode === 'NoteView' && (
             <StyledButton onPress={onPressDelete}>
               <Ionicons name="ios-trash-bin-outline" size={24} color="black" />
             </StyledButton>

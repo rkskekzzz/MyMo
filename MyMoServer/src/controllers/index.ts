@@ -1,1 +1,1 @@
-export { default as MemoController } from './memo';
+export { default as NoteController } from './note';

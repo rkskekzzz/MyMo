@@ -7,12 +7,12 @@ const useNavigation = () => {
 
   const goBack = () => navigation.goBack();
 
-  const toMemoView = () => {
-    if (navigation.getState().routes[0].name === 'MemoView') goBack();
-    navigation.navigate('MemoView');
+  const toNoteView = () => {
+    if (navigation.getState().routes[0].name === 'NoteView') goBack();
+    navigation.navigate('NoteView');
   };
 
-  return { goBack, toMemoView };
+  return { goBack, toNoteView };
 };
 
 export default useNavigation;

@@ -1,4 +1,4 @@
-export class CreateMemoDTO {
+export class CreateNoteDTO {
   _id!: string;
   title!: string;
   content!: string;
@@ -6,14 +6,14 @@ export class CreateMemoDTO {
   updatedAt!: Date;
 }
 
-export class UpdateMemoDTO {
+export class UpdateNoteDTO {
   _id!: string;
   title!: string;
   content!: string;
   updatedAt!: Date;
 }
 
-export class DeleteMemoDTO {
+export class DeleteNoteDTO {
   _id!: string;
   deletedAt!: Date;
 }

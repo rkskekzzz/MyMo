@@ -1,7 +1,7 @@
 import type { State } from './statusContext.type';
 
 const statusContextInitialValue: State = {
-  memo: null,
+  note: null,
   isEdit: false,
   count: 0,
   isSyncing: false

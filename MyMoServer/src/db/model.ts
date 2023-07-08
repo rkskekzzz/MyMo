@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
-import { Memo } from '../interface/entity';
+import { Note } from '../interface/entity';
 
-const schema = new Schema<Memo>(
+const schema = new Schema<Note>(
   {
     _id: {
       type: String,
@@ -32,4 +32,4 @@ const schema = new Schema<Memo>(
   { timestamps: true, versionKey: false }
 );
 
-export default model<Memo>('Memo', schema);
+export default model<Note>('Note', schema);

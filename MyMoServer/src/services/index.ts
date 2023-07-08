@@ -1,1 +1,1 @@
-export { default as MemoService } from './memo';
+export { default as NoteService } from './note';

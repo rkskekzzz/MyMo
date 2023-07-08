@@ -1,3 +1,4 @@
 export * from './navigation';
-export * from './memoListView';
+export * from './noteListView';
+export * from './noteView';
 export * from './footer';

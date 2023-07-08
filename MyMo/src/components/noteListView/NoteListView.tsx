@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { styled } from 'styled-components/native';
 import { Footer } from '../footer';
-import { useStatus, useMemos } from 'hooks';
+import { useStatus, useNotes } from 'hooks';
 import { t } from 'i18next';
 import type { StackScreenProps } from '../navigation';
 
@@ -10,28 +10,28 @@ const StyledView = styled.View`
 `;
 const StyledText = styled.Text``;
 
-const MemoListView = ({ navigation }: StackScreenProps) => {
+const NoteListView = ({ navigation }: StackScreenProps) => {
   const { dispatch } = useStatus();
-  const { filteredMemos } = useMemos();
+  const { filteredNotes } = useNotes();
 
   return (
     <StyledView>
-      {filteredMemos.map((memo, index) => {
+      {filteredNotes.map((note, index) => {
         return (
           <StyledText
             key={index}
             onPress={() => {
-              dispatch({ type: 'SET_MEMO', newMemo: memo });
-              navigation.navigate('MemoView');
+              dispatch({ type: 'SET_NOTE', newNote: note });
+              navigation.navigate('NoteView');
             }}
           >
-            {memo.title.length === 0 ? t('memo-list-title-placeholder') : memo.title}
+            {note.title.length === 0 ? t('note-list-title-placeholder') : note.title}
           </StyledText>
         );
       })}
-      <Footer mode="MemoListView" />
+      <Footer mode="NoteListView" />
     </StyledView>
   );
 };
 
-export default MemoListView;
+export default NoteListView;

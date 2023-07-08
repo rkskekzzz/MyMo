@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { MemoListView } from '../memoListView';
-import { MemoView } from '../memoView';
+import { NoteView } from 'components/noteView';
+import { NoteListView } from 'components/noteListView';
 import { styled } from 'styled-components/native';
 import { useStatus } from 'hooks';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +15,7 @@ const Stack = () => {
   const { state, dispatch } = useStatus();
   const { t } = useTranslation();
 
-  const MemoViewHeaderOption = useMemo(() => {
+  const NoteViewHeaderOption = useMemo(() => {
     return {
       title: '',
       headerRight: () =>
@@ -26,18 +26,18 @@ const Stack = () => {
               dispatch({ type: 'TO_READ_MODE' });
             }}
           />
-        ) : null,
+        ) : null
     };
   }, [state.isEdit]);
 
   return (
-    <NativeStack.Navigator initialRouteName="MemoListView">
+    <NativeStack.Navigator initialRouteName="NoteListView">
       <NativeStack.Screen
-        name="MemoListView"
-        component={MemoListView}
-        options={{ title: t('header-memo-list-title') }}
+        name="NoteListView"
+        component={NoteListView}
+        options={{ title: t('header-note-list-title') }}
       />
-      <NativeStack.Screen name="MemoView" component={MemoView} options={MemoViewHeaderOption} />
+      <NativeStack.Screen name="NoteView" component={NoteView} options={NoteViewHeaderOption} />
     </NativeStack.Navigator>
   );
 };

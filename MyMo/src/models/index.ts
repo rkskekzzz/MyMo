@@ -1,4 +1,4 @@
-import { Memo, type CreateMemoDTO, type UpdateMemoDTO, type DeleteMemoDto } from './Memo';
+import { Note, type CreateNoteDTO, type UpdateNoteDTO, type DeleteNoteDto } from './Note';
 
-export const schemas = [Memo];
-export { Memo, CreateMemoDTO, UpdateMemoDTO, DeleteMemoDto };
+export const schemas = [Note];
+export { Note, CreateNoteDTO, UpdateNoteDTO, DeleteNoteDto };

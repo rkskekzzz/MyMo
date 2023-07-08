@@ -1,6 +1,6 @@
 import Realm from 'realm';
 
-export interface CreateMemoDTO {
+export interface CreateNoteDTO {
   _id: string;
   title: string;
   content: string;
@@ -8,19 +8,19 @@ export interface CreateMemoDTO {
   updatedAt: Date;
 }
 
-export interface UpdateMemoDTO {
+export interface UpdateNoteDTO {
   _id: string;
   title: string;
   content: string;
   updatedAt: Date;
 }
 
-export interface DeleteMemoDto {
+export interface DeleteNoteDto {
   _id: string;
-  deletedAt: Date;
+  deletedAt: Date | null;
 }
 
-export class Memo extends Realm.Object {
+export class Note extends Realm.Object {
   _id!: string;
   title!: string;
   content!: string;
@@ -42,7 +42,7 @@ export class Memo extends Realm.Object {
   }
 
   static schema = {
-    name: 'Memo',
+    name: 'Note',
     primaryKey: '_id',
     properties: {
       _id: 'string',

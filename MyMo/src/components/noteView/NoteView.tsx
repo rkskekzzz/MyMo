@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { styled } from 'styled-components/native';
 import { Footer } from '../footer';
-import { useStatus, useInput, useDebounce, useMemos } from 'hooks';
+import { useStatus, useInput, useDebounce, useNote } from 'hooks';
 import { TextInput } from 'react-native';
 
 const StyledView = styled.View`
@@ -10,12 +10,12 @@ const StyledView = styled.View`
 // const StyledText = styled.Text``;
 const StyledTextInput = styled(TextInput)``;
 
-const MemoView = () => {
+const NoteView = () => {
   const contentRef = useRef<TextInput>(null);
-  const { update } = useMemos();
+  const { update } = useNote();
   const { state, dispatch } = useStatus();
-  const { value: title, onChangeText: onChangeTitle } = useInput(state.memo?.title);
-  const { value: content, onChangeText: onChangeContent } = useInput(state.memo?.content);
+  const { value: title, onChangeText: onChangeTitle } = useInput(state.note?.title);
+  const { value: content, onChangeText: onChangeContent } = useInput(state.note?.content);
 
   const onPressIn = () => {
     if (!state.isEdit) dispatch({ type: 'TO_EDIT_MODE' });
@@ -54,9 +54,9 @@ const MemoView = () => {
       >
         {content}
       </TextInput>
-      <Footer mode="MemoView" />
+      <Footer mode="NoteView" />
     </StyledView>
   );
 };
 
-export default MemoView;
+export default NoteView;
