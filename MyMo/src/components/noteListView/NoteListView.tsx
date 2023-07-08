@@ -10,7 +10,7 @@ import type { StackScreenProps } from '../navigation';
 
 const NoteListView = ({ navigation }: StackScreenProps) => {
   const { dispatch } = useStatus();
-  const { sortedNotes } = useNoteList();
+  const { localNoteList, sortedNoteList } = useNoteList();
 
   const renderItem = ({ item }: { item: Note }) => {
     return (
@@ -36,7 +36,11 @@ const NoteListView = ({ navigation }: StackScreenProps) => {
         <Txt fontSize="lg" fontWeight="bold">
           {t('note-list-view.title')}
         </Txt>
-        <FlatList showsVerticalScrollIndicator={false} data={sortedNotes} renderItem={renderItem} />
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={sortedNoteList}
+          renderItem={renderItem}
+        />
       </NoteList>
       <Footer mode="NoteListView" />
     </NoteListViewContainer>

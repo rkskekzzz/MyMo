@@ -19,15 +19,17 @@ const Footer = ({ mode }: Props) => {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
 
+  const SyncingIndicator = () => (
+    <FooterMessage>
+      <ActivityIndicator size="small" color="primary" />
+      <Txt fontSize="sm">{t('note-view.footer.syncing')}</Txt>
+    </FooterMessage>
+  );
+
   const SyncStatus = () => {
     if (onlineManager.isOnline()) {
       if (state.isSyncing) {
-        return (
-          <FooterMessage>
-            <ActivityIndicator size="small" color="primary" />
-            <Txt fontSize="sm">{t('note-view.footer.syncing')}</Txt>
-          </FooterMessage>
-        );
+        return <SyncingIndicator />;
       } else {
         return (
           <FooterMessage>
@@ -49,11 +51,14 @@ const Footer = ({ mode }: Props) => {
   return (
     <FooterContainer mode={mode} style={{ paddingBottom: insets.bottom }}>
       <ZStack>
-        {mode === 'NoteListView' && (
-          <FooterMessage>
-            <Txt fontSize="xs">{state.count + t('note-list-view.footer.count-of-notes')}</Txt>
-          </FooterMessage>
-        )}
+        {mode === 'NoteListView' &&
+          (state.isSyncing ? (
+            <SyncingIndicator />
+          ) : (
+            <FooterMessage>
+              <Txt fontSize="xs">{state.count + t('note-list-view.footer.count-of-notes')}</Txt>
+            </FooterMessage>
+          ))}
         {mode === 'NoteView' && <SyncStatus />}
         <VStack>
           <Button onPress={create}>

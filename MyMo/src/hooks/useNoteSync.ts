@@ -10,28 +10,29 @@ import type { ConflictStatus } from 'interface';
 
 const useNoteSync = (localNote: Note | null, removeAlert: (callback: () => void) => void) => {
   const realm = useRealm();
-  const { dispatch } = useStatus();
+  const { state, dispatch } = useStatus();
   const { createMutation, updateMutation, removeMutation, isMutating } = useMutations(localNote);
   const [conflictStatus, setConflictStatus] = useState<ConflictStatus>('NoConflict');
 
-  const queryKey = localNote?.syncedAt ? ['note', localNote._id] : [];
-  const queryFn = localNote?.syncedAt ? () => NoteController.getOne(localNote._id) : () => null;
-  const { data: serverNote, isLoading } = useQuery({
+  const queryKey = state.isEdit && localNote?.syncedAt ? ['note', localNote._id] : [];
+  const queryFn =
+    state.isEdit && localNote?.syncedAt ? () => NoteController.getOne(localNote._id) : () => null;
+  const { data: serverNote, isFetching } = useQuery({
     queryKey,
     queryFn,
     onSuccess: (serverNote) => {
       if (!serverNote) return;
       syncOne(serverNote);
     },
-    refetchInterval: 1000
+    refetchInterval: 4000
   });
 
   useEffect(() => {
     dispatch({
       type: 'SET_IS_SYNCING',
-      isSyncing: isLoading || isMutating || conflictStatus !== 'NoConflict'
+      isSyncing: isFetching || isMutating || conflictStatus !== 'NoConflict'
     });
-  }, [isLoading, isMutating, conflictStatus]);
+  }, [isFetching, isMutating, conflictStatus]);
 
   useEffect(() => {
     if (localNote && localNote?.syncedAt === null) {
