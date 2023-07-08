@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRealm } from '@realm/react';
-import { CreateNoteDTO, Note } from 'models';
+import { Note } from 'models';
 import { NoteController } from 'api';
 import { getTime } from 'utils';
+import useStatus from './useStatus';
 import type { ConflictStatus } from 'interface';
 
-const useNoteSync = (localNote: Note | null) => {
+const useNoteSync = (localNote: Note | null, removeAlert: (callback: () => void) => void) => {
   const realm = useRealm();
+  const { dispatch } = useStatus();
   const [conflictStatus, setConflictStatus] = useState<ConflictStatus>('NoConflict');
   const updateLocalNoteSyncedAt = (data: Note) => {
     const note = localNote;
@@ -45,6 +47,17 @@ const useNoteSync = (localNote: Note | null) => {
     onSuccess: (serverNote) => syncOne(serverNote),
     refetchInterval: 1000
   });
+
+  useEffect(() => {
+    dispatch({
+      type: 'SET_IS_SYNCING',
+      isSyncing:
+        isLoading ||
+        createMutation.isLoading ||
+        updateMutation.isLoading ||
+        removeMutation.isLoading
+    });
+  }, [isLoading, createMutation.isLoading, updateMutation.isLoading, removeMutation.isLoading]);
 
   useEffect(() => {
     if (localNote && localNote?.syncedAt === null) {
@@ -116,6 +129,7 @@ const useNoteSync = (localNote: Note | null) => {
     if (!localNote) return;
     const { _id, title, content, deletedAt, updatedAt } = localNote;
     if (conflictStatus === 'DeleteConflictServer') {
+      // 불가능
       removeMutation.mutate({ _id, deletedAt });
     } else {
       updateMutation.mutate({ _id, title, content, updatedAt });
@@ -125,19 +139,24 @@ const useNoteSync = (localNote: Note | null) => {
 
   const forceSyncToLocal = () => {
     if (!localNote || !serverNote) return;
-    const { title, content, deletedAt, updatedAt } = serverNote;
+    const { title, content, deletedAt, updatedAt, syncedAt } = serverNote;
     if (conflictStatus === 'DeleteConflictLocal') {
-      realm.write(() => {
-        localNote.deletedAt = deletedAt;
+      // 삭제 경고 & 홈으로 이동
+      removeAlert(() => {
+        realm.write(() => {
+          localNote.deletedAt = deletedAt;
+        });
+        setConflictStatus('NoConflict');
       });
     } else {
       realm.write(() => {
         localNote.title = title;
         localNote.content = content;
         localNote.updatedAt = updatedAt;
+        localNote.syncedAt = syncedAt;
       });
+      setConflictStatus('NoConflict');
     }
-    setConflictStatus('NoConflict');
   };
 
   return { conflictStatus, serverNote, forceSyncToServer, forceSyncToLocal };

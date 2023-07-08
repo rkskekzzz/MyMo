@@ -4,9 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { onlineManager } from '@tanstack/query-core';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HStack, ZStack } from '@components/stack';
-import { useStatus, useNavigation, useNote } from 'hooks';
+import { useStatus, useNote } from 'hooks';
 import { getColorByTheme } from 'utils';
-import { Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import type { FooterMode } from './Footer.type';
 
@@ -49,32 +48,34 @@ type Props = {
 };
 
 const Footer = ({ mode }: Props) => {
-  const { goBack, toNoteView } = useNavigation();
-  const { create, remove } = useNote();
-  const { state, dispatch } = useStatus();
+  const { create, remove, removeAlert } = useNote();
+  const { state } = useStatus();
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
 
-  const onPressCreate = () => {
-    toNoteView();
-    create();
-  };
-
-  const onPressDelete = () => {
-    Alert.alert(t('alert-delete-title'), t('alert-delete-description'), [
-      {
-        text: t('alert-delete-cancel'),
-        style: 'destructive'
-      },
-      {
-        text: t('alert-delete-ok'),
-        onPress: () => {
-          goBack();
-          remove();
-          dispatch({ type: 'CLEAR_NOTE' });
-        }
+  const SyncStatus = () => {
+    if (onlineManager.isOnline()) {
+      if (state.isSyncing) {
+        return (
+          <StyledView>
+            <Ionicons name="cloud-upload-sharp" size={20} color="black" />
+            <StyledText2>동기화 중</StyledText2>
+          </StyledView>
+        );
+      } else {
+        return (
+          <StyledView>
+            <Ionicons name="cloud-done-sharp" size={20} color="black" />
+            <StyledText2>동기화 완료</StyledText2>
+          </StyledView>
+        );
       }
-    ]);
+    } else {
+      <StyledView>
+        <Ionicons name="cloud-offline-sharp" size={20} color="black" />
+        <StyledText2>{t('footer-offline')}</StyledText2>
+      </StyledView>;
+    }
   };
 
   return (
@@ -83,22 +84,13 @@ const Footer = ({ mode }: Props) => {
         {mode === 'NoteListView' && (
           <StyledText>{state.count + t('footer-count-of-notes')}</StyledText>
         )}
-        {mode === 'NoteView' && (
-          <StyledView>
-            {onlineManager.isOnline() ? (
-              <Ionicons name="cloud-done-sharp" size={20} color="black" />
-            ) : (
-              <Ionicons name="cloud-offline-sharp" size={20} color="black" />
-            )}
-            <StyledText2>{t('footer-updating')}</StyledText2>
-          </StyledView>
-        )}
+        {mode === 'NoteView' && <SyncStatus />}
         <HStack>
-          <StyledButton onPress={onPressCreate}>
+          <StyledButton onPress={create}>
             <Ionicons name="create-outline" size={24} color="black" />
           </StyledButton>
           {mode === 'NoteView' && (
-            <StyledButton onPress={onPressDelete}>
+            <StyledButton onPress={() => removeAlert(remove)}>
               <Ionicons name="ios-trash-bin-outline" size={24} color="black" />
             </StyledButton>
           )}

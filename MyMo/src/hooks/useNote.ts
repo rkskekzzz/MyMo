@@ -1,17 +1,19 @@
-import { useEffect, useState } from 'react';
 import { useObject, useRealm } from '@realm/react';
 import { Note } from 'models';
-import { NoteController } from 'api';
-import { onlineManager, useMutation, useQuery } from '@tanstack/react-query';
+import { Alert } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import useNavigation from './useNavigation';
 import useStatus from './useStatus';
-import type { ConflictStatus } from 'interface';
 
 const useNote = () => {
   const realm = useRealm();
+  const { goBack, toNoteView } = useNavigation();
   const { state, dispatch } = useStatus();
   const localNote = useObject(Note, state.note?._id ?? '');
+  const { t } = useTranslation();
 
   const create = () => {
+    toNoteView();
     const note = Note.generate();
 
     if (note) {
@@ -19,7 +21,6 @@ const useNote = () => {
         const newNote = realm.create<Note>('Note', note);
         dispatch({ type: 'SET_NOTE', newNote });
       });
-      // createMutation.mutate({ ...note });
     }
   };
 
@@ -32,7 +33,6 @@ const useNote = () => {
         localNote.title = title;
         localNote.content = content;
       });
-      // updateMutation.mutate({ _id: localNote._id, title, content, updatedAt: now });
     }
   };
 
@@ -43,11 +43,27 @@ const useNote = () => {
       realm.write(() => {
         localNote.deletedAt = now;
       });
-      // removeMutation.mutate({ _id: localNote._id, deletedAt: now });
     }
   };
 
-  return { localNote, create, update, remove };
+  const removeAlert = (callback: () => void) => {
+    Alert.alert(t('alert-delete-title'), t('alert-delete-description'), [
+      {
+        text: t('alert-delete-cancel'),
+        style: 'destructive'
+      },
+      {
+        text: t('alert-delete-ok'),
+        onPress: () => {
+          goBack();
+          callback();
+          dispatch({ type: 'CLEAR_NOTE' });
+        }
+      }
+    ]);
+  };
+
+  return { localNote, create, update, remove, removeAlert };
 };
 
 export default useNote;

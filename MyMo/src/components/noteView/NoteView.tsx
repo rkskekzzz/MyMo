@@ -13,9 +13,11 @@ const StyledView = styled.ScrollView`
 const StyledTextInput = styled(TextInput)``;
 
 const NoteView = () => {
-  const { localNote, update } = useNote();
-  const { serverNote, conflictStatus, forceSyncToLocal, forceSyncToServer } =
-    useNoteSync(localNote);
+  const { localNote, update, removeAlert } = useNote();
+  const { serverNote, conflictStatus, forceSyncToLocal, forceSyncToServer } = useNoteSync(
+    localNote,
+    removeAlert
+  );
 
   const isConflict = useMemo(() => {
     if (conflictStatus === 'NoConflict' || conflictStatus === 'DeleteConflictBoth') return false;
