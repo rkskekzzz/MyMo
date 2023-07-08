@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useRealm } from '@realm/react';
-import { Note } from 'models';
 import { NoteController } from 'api';
 import { getTime } from 'utils';
 import useStatus from './useStatus';
 import useMutations from './useMutations';
+import type { Note } from 'models';
 import type { ConflictStatus } from 'interface';
 
 const useNoteSync = (localNote: Note | null, removeAlert: (callback: () => void) => void) => {

@@ -1,13 +1,12 @@
-import React from 'react';
 import {
   NoteViewConflictButton,
   NoteViewConflictTop,
   NoteViewConflictBottom,
   NoteViewConflictScrollView
 } from './NoteView.styled';
+import { t } from 'i18next';
 import { Txt } from 'components/Txt';
 import type { Note } from 'models';
-import { t } from 'i18next';
 
 type Props = {
   localNote: Note;

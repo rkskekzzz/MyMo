@@ -1,5 +1,3 @@
-import React from 'react';
-import { Ionicons } from '@expo/vector-icons';
 import { onlineManager } from '@tanstack/query-core';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HStack, ZStack } from '@components/stack';

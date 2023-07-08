@@ -1,7 +1,7 @@
-import { Note } from 'models';
 import { useRealm } from '@realm/react';
 import { useMutation } from '@tanstack/react-query';
 import { NoteController } from 'api';
+import type { Note } from 'models';
 
 const useMutations = (localNote: Note | null) => {
   const realm = useRealm();

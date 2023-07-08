@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useQuery } from '@realm/react';
-import useStatus from './useStatus';
 import { Note } from 'models';
+import useStatus from './useStatus';
 
 const useNotes = () => {
   const { dispatch } = useStatus();

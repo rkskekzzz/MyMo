@@ -1,4 +1,3 @@
-import React from 'react';
 import StyledTxt from './Txt.styled';
 
 type Props = {

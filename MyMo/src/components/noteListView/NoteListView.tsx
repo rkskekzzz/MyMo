@@ -1,11 +1,11 @@
-import { Footer } from '../footer';
+import { FlatList } from 'react-native';
 import { t } from 'i18next';
 import { Txt } from 'components/Txt';
-import { NoteListViewContainer, NoteList, NoteListItem } from './NoteListView.styled';
-import { Note } from 'models';
-import { FlatList } from 'react-native';
 import { useStatus, useNotes } from 'hooks';
 import { formatDate } from 'utils';
+import { Footer } from '../footer';
+import { NoteListViewContainer, NoteList, NoteListItem } from './NoteListView.styled';
+import type { Note } from 'models';
 import type { StackScreenProps } from '../navigation';
 
 const NoteListView = ({ navigation }: StackScreenProps) => {

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NoteView } from 'components/noteView';
 import { NoteListView } from 'components/noteListView';

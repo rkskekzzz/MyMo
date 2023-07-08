@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { useInput, useStatus, useDebounce } from 'hooks';
 import { NoteViewTextInput, NoteViewTextInputTitle } from './NoteView.styled';
 import type { TextInput } from 'react-native';
