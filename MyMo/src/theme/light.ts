@@ -1,17 +1,23 @@
 import type { ColorStyle } from './theme.types';
 
 const light: ColorStyle = {
-  primary: '#007bff',
-  secondary: '#6c757d',
-  error: '#dc3545',
+  primary: '#ffd52e',
+  secondary: '#f9f9f9',
   warning: '#ffc107',
   info: '#17a2b8',
+  error: '#dc3545',
   success: '#28a745',
-  textPrimary: '#212529',
-  textSecondary: '#6c757d',
-  textDisabled: '#adb5bd',
-  background: '#f8f9fa',
+  background: '#e5e5e5',
+  backgroundNote: '#f9f9f9',
   disabled: '#ced4da',
+  icon: '#F2B705',
+  text: {
+    primary: '#212529',
+    secondary: '#404040',
+    disabled: '#cfd7df',
+    error: '#dc3545',
+    success: '#28a745'
+  }
 };
 
 export default light;

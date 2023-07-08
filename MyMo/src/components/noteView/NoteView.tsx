@@ -1,16 +1,9 @@
-import { useEffect, useMemo, useRef } from 'react';
-import { styled } from 'styled-components/native';
+import { useMemo } from 'react';
 import { Footer } from '../footer';
-import { useStatus, useInput, useDebounce, useNote, useNoteSync } from 'hooks';
-import { TextInput } from 'react-native';
+import { useNote, useNoteSync } from 'hooks';
 import NoteConflictView from './NoteConflictView';
 import NoteDefaultView from './NoteDefaultView';
-
-const StyledView = styled.ScrollView`
-  flex: 1;
-`;
-// const StyledText = styled.Text``;
-const StyledTextInput = styled(TextInput)``;
+import { NoteViewContainer, SafeAreaNoteView } from './NoteView.styled';
 
 const NoteView = () => {
   const { localNote, update, removeAlert } = useNote();
@@ -25,19 +18,21 @@ const NoteView = () => {
   }, [conflictStatus]);
 
   return (
-    <>
-      {isConflict && localNote && serverNote ? (
-        <NoteConflictView
-          localNote={localNote}
-          serverNote={serverNote}
-          forceSyncToLocal={forceSyncToLocal}
-          forceSyncToServer={forceSyncToServer}
-        />
-      ) : (
-        <NoteDefaultView update={update} />
-      )}
+    <SafeAreaNoteView>
+      <NoteViewContainer>
+        {isConflict && localNote && serverNote ? (
+          <NoteConflictView
+            localNote={localNote}
+            serverNote={serverNote}
+            forceSyncToLocal={forceSyncToLocal}
+            forceSyncToServer={forceSyncToServer}
+          />
+        ) : (
+          <NoteDefaultView update={update} />
+        )}
+      </NoteViewContainer>
       <Footer mode="NoteView" />
-    </>
+    </SafeAreaNoteView>
   );
 };
 

@@ -1,18 +1,13 @@
-import { Note } from 'models';
 import React from 'react';
-import { styled } from 'styled-components/native';
-
-const StyledBtnText = styled.Text``;
-const StyledNoteText = styled.Text``;
-
-const StyledView = styled.View`
-  flex: 1;
-`;
-const StyledScrollView = styled.ScrollView`
-  flex: 1;
-`;
-
-const StyledTouchableOpacity = styled.TouchableOpacity``;
+import {
+  NoteViewConflictButton,
+  NoteViewConflictTop,
+  NoteViewConflictBottom,
+  NoteViewConflictScrollView
+} from './NoteView.styled';
+import { Txt } from 'components/Txt';
+import type { Note } from 'models';
+import { t } from 'i18next';
 
 type Props = {
   localNote: Note;
@@ -28,22 +23,34 @@ const NoteConflictView = ({
   forceSyncToServer
 }: Props) => {
   return (
-    <StyledView>
-      <StyledScrollView>
-        <StyledNoteText>{localNote.title}</StyledNoteText>
-        <StyledNoteText>{localNote.content}</StyledNoteText>
-        <StyledTouchableOpacity onPress={forceSyncToServer}>
-          <StyledBtnText>로컬 메모 선택</StyledBtnText>
-        </StyledTouchableOpacity>
-      </StyledScrollView>
-      <StyledScrollView>
-        <StyledNoteText>{serverNote.title}</StyledNoteText>
-        <StyledNoteText>{serverNote.content}</StyledNoteText>
-        <StyledTouchableOpacity onPress={forceSyncToLocal}>
-          <StyledBtnText>서버 메모 선택</StyledBtnText>
-        </StyledTouchableOpacity>
-      </StyledScrollView>
-    </StyledView>
+    <>
+      <NoteViewConflictTop>
+        <NoteViewConflictScrollView>
+          <Txt color="secondary" fontSize="lg" fontWeight="bold">
+            {localNote.title}
+          </Txt>
+          <Txt color="secondary">{localNote.content}</Txt>
+        </NoteViewConflictScrollView>
+        <NoteViewConflictButton onPress={forceSyncToServer}>
+          <Txt fontSize="sm" fontWeight="bold">
+            {t('note-view.note.select-local')}
+          </Txt>
+        </NoteViewConflictButton>
+      </NoteViewConflictTop>
+      <NoteViewConflictBottom>
+        <NoteViewConflictScrollView>
+          <Txt color="secondary" fontSize="lg" fontWeight="bold">
+            {serverNote.title}
+          </Txt>
+          <Txt color="secondary">{serverNote.content}</Txt>
+        </NoteViewConflictScrollView>
+        <NoteViewConflictButton onPress={forceSyncToLocal}>
+          <Txt fontSize="sm" fontWeight="bold">
+            {t('note-view.note.select-remote')}
+          </Txt>
+        </NoteViewConflictButton>
+      </NoteViewConflictBottom>
+    </>
   );
 };
 

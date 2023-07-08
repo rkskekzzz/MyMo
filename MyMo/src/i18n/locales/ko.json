@@ -1,5 +1,6 @@
 {
   "note-list-view": {
+    "title": "최근 메모",
     "header": {
       "title": "모든 메모"
     },
@@ -27,7 +28,9 @@
       },
       "content": {
         "placeholder": "내용을 입력하세요"
-      }
+      },
+      "select-local": "로컬 메모 선택",
+      "select-remote": "클라우드 메모 선택"
     }
   },
   "alert": {

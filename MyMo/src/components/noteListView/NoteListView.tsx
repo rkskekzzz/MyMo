@@ -1,36 +1,49 @@
-import { useEffect } from 'react';
-import { styled } from 'styled-components/native';
 import { Footer } from '../footer';
-import { useStatus, useNotes } from 'hooks';
 import { t } from 'i18next';
+import { Txt } from 'components/Txt';
+import { NoteListViewContainer, NoteList, NoteListItem } from './NoteListView.styled';
+import { Note } from 'models';
+import { FlatList } from 'react-native';
+import { useStatus, useNotes } from 'hooks';
+import { formatDate } from 'utils';
 import type { StackScreenProps } from '../navigation';
-
-const StyledView = styled.View`
-  flex: 1;
-`;
-const StyledText = styled.Text``;
 
 const NoteListView = ({ navigation }: StackScreenProps) => {
   const { dispatch } = useStatus();
   const { filteredNotes } = useNotes();
 
+  const renderItem = ({ item }: { item: Note }) => {
+    return (
+      <NoteListItem
+        onPress={() => {
+          dispatch({ type: 'SET_NOTE', newNote: item });
+          navigation.navigate('NoteView');
+        }}
+      >
+        <Txt fontWeight="bold" fontSize="md">
+          {item.title.length === 0 ? t('note-list-view.note.title.placeholder') : item.title}
+        </Txt>
+        <Txt numberOfLines={1} ellipsizeMode="tail" color="secondary" fontSize="sm">{`${formatDate(
+          item.updatedAt
+        )} ${item.content}`}</Txt>
+      </NoteListItem>
+    );
+  };
+
   return (
-    <StyledView>
-      {filteredNotes.map((note, index) => {
-        return (
-          <StyledText
-            key={index}
-            onPress={() => {
-              dispatch({ type: 'SET_NOTE', newNote: note });
-              navigation.navigate('NoteView');
-            }}
-          >
-            {note.title.length === 0 ? t('note-list-view.note.title.placeholder') : note.title}
-          </StyledText>
-        );
-      })}
+    <NoteListViewContainer>
+      <NoteList>
+        <Txt fontSize="lg" fontWeight="bold">
+          {t('note-list-view.title')}
+        </Txt>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={filteredNotes}
+          renderItem={renderItem}
+        />
+      </NoteList>
       <Footer mode="NoteListView" />
-    </StyledView>
+    </NoteListViewContainer>
   );
 };
 

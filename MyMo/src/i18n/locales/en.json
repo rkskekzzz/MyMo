@@ -1,5 +1,6 @@
 {
   "note-list-view": {
+    "title": "React Notes",
     "header": {
       "title": "Feed"
     },
@@ -27,7 +28,9 @@
       },
       "content": {
         "placeholder": "Please enter your content"
-      }
+      },
+      "select-local": "select local note",
+      "select-remote": "select remote note"
     }
   },
   "alert": {

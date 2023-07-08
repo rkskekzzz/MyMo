@@ -2,17 +2,17 @@ import React, { useMemo } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NoteView } from 'components/noteView';
 import { NoteListView } from 'components/noteListView';
-import { styled } from 'styled-components/native';
 import { useStatus } from 'hooks';
 import { useTranslation } from 'react-i18next';
+import { HeaderButton } from './Stack.styled';
+import { useTheme } from 'styled-components/native';
 import type { RootStackParamList } from './Stack.type';
-
-const HeaderButton = styled.Button``;
 
 const NativeStack = createNativeStackNavigator<RootStackParamList>();
 
 const Stack = () => {
   const { state, dispatch } = useStatus();
+  const theme = useTheme();
   const { t } = useTranslation();
 
   const NoteViewHeaderOption = useMemo(() => {
@@ -25,13 +25,22 @@ const Stack = () => {
             onPress={() => {
               dispatch({ type: 'TO_READ_MODE' });
             }}
+            color={theme[theme.mode].icon}
           />
         ) : null
     };
   }, [state.isEdit]);
 
   return (
-    <NativeStack.Navigator initialRouteName="NoteListView">
+    <NativeStack.Navigator
+      initialRouteName="NoteListView"
+      screenOptions={{
+        headerTintColor: theme[theme.mode].icon,
+        headerStyle: {
+          backgroundColor: theme[theme.mode].background
+        }
+      }}
+    >
       <NativeStack.Screen
         name="NoteListView"
         component={NoteListView}

@@ -5,12 +5,17 @@ export type Color =
   | 'warning'
   | 'info'
   | 'success'
-  | 'textPrimary'
-  | 'textSecondary'
-  | 'textDisabled'
   | 'background'
-  | 'disabled';
+  | 'backgroundNote'
+  | 'disabled'
+  | 'icon';
+
+export type TextColor = 'primary' | 'secondary' | 'disabled' | 'error' | 'success';
 
 export type ColorStyle = {
   [key in Color]: string;
+} & {
+  text: {
+    [key in TextColor]: string;
+  };
 };

@@ -1,13 +1,7 @@
 import React, { useRef } from 'react';
-import styled from 'styled-components/native';
 import { useInput, useStatus, useDebounce } from 'hooks';
-import { TextInput } from 'react-native';
-
-const StyledView = styled.ScrollView`
-  flex: 1;
-`;
-// const StyledText = styled.Text``;
-const StyledTextInput = styled(TextInput)``;
+import { NoteViewTextInput, NoteViewTextInputTitle } from './NoteView.styled';
+import type { TextInput } from 'react-native';
 
 type Props = {
   update: (title: string, content: string) => void;
@@ -34,8 +28,8 @@ const NoteDefaultView = ({ update }: Props) => {
   }, [title, content]);
 
   return (
-    <StyledView>
-      <StyledTextInput
+    <>
+      <NoteViewTextInputTitle
         autoFocus
         placeholder="title"
         onChangeText={onChangeTitle}
@@ -45,18 +39,19 @@ const NoteDefaultView = ({ update }: Props) => {
         onSubmitEditing={onSubmitEditingInTitle}
       >
         {title}
-      </StyledTextInput>
-      <TextInput
+      </NoteViewTextInputTitle>
+      <NoteViewTextInput
         placeholder="content"
         multiline
         ref={contentRef}
         onChangeText={onChangeContent}
         editable={state.isEdit}
         onPressIn={onPressIn}
+        scrollEnabled
       >
         {content}
-      </TextInput>
-    </StyledView>
+      </NoteViewTextInput>
+    </>
   );
 };
 
