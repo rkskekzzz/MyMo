@@ -4,13 +4,15 @@ import { Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import useNavigation from './useNavigation';
 import useStatus from './useStatus';
+import useMutations from './useMutations';
 
 const useNote = () => {
   const realm = useRealm();
-  const { goBack, toNoteView } = useNavigation();
-  const { state, dispatch } = useStatus();
-  const localNote = useObject(Note, state.note?._id ?? '');
   const { t } = useTranslation();
+  const { state, dispatch } = useStatus();
+  const { goBack, toNoteView } = useNavigation();
+  const localNote = useObject(Note, state.note?._id ?? '');
+  const { removeMutation } = useMutations(localNote);
 
   const create = () => {
     toNoteView();
@@ -43,6 +45,7 @@ const useNote = () => {
       realm.write(() => {
         localNote.deletedAt = now;
       });
+      removeMutation.mutate(localNote);
     }
   };
 

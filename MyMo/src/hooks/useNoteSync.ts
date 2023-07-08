@@ -5,59 +5,33 @@ import { Note } from 'models';
 import { NoteController } from 'api';
 import { getTime } from 'utils';
 import useStatus from './useStatus';
+import useMutations from './useMutations';
 import type { ConflictStatus } from 'interface';
 
 const useNoteSync = (localNote: Note | null, removeAlert: (callback: () => void) => void) => {
   const realm = useRealm();
   const { dispatch } = useStatus();
+  const { createMutation, updateMutation, removeMutation, isMutating } = useMutations(localNote);
   const [conflictStatus, setConflictStatus] = useState<ConflictStatus>('NoConflict');
-  const updateLocalNoteSyncedAt = (data: Note) => {
-    const note = localNote;
-    if (note) {
-      realm.write(() => {
-        if (data.syncedAt) {
-          console.log(data.syncedAt);
-          note.syncedAt = data.syncedAt;
-        }
-      });
-    }
-  };
-  const createMutation = useMutation({
-    mutationFn: NoteController.create,
-    onSuccess: updateLocalNoteSyncedAt
-  });
-  const updateMutation = useMutation({
-    mutationFn: NoteController.update,
-    onSuccess: updateLocalNoteSyncedAt
-  });
-  const removeMutation = useMutation({
-    mutationFn: NoteController.remove,
-    onSuccess: updateLocalNoteSyncedAt
-  });
 
-  const queryKey = localNote?.syncedAt ? ['note', localNote._id] : undefined;
-  const queryFn = localNote?.syncedAt ? () => NoteController.getOne(localNote._id) : undefined;
-  const {
-    data: serverNote,
-    isLoading,
-    isError
-  } = useQuery({
+  const queryKey = localNote?.syncedAt ? ['note', localNote._id] : [];
+  const queryFn = localNote?.syncedAt ? () => NoteController.getOne(localNote._id) : () => null;
+  const { data: serverNote, isLoading } = useQuery({
     queryKey,
     queryFn,
-    onSuccess: (serverNote) => syncOne(serverNote),
+    onSuccess: (serverNote) => {
+      if (!serverNote) return;
+      syncOne(serverNote);
+    },
     refetchInterval: 1000
   });
 
   useEffect(() => {
     dispatch({
       type: 'SET_IS_SYNCING',
-      isSyncing:
-        isLoading ||
-        createMutation.isLoading ||
-        updateMutation.isLoading ||
-        removeMutation.isLoading
+      isSyncing: isLoading || isMutating
     });
-  }, [isLoading, createMutation.isLoading, updateMutation.isLoading, removeMutation.isLoading]);
+  }, [isLoading, isMutating]);
 
   useEffect(() => {
     if (localNote && localNote?.syncedAt === null) {
