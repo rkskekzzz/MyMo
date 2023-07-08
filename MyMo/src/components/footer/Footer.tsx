@@ -1,6 +1,6 @@
 import { onlineManager } from '@tanstack/query-core';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { HStack, ZStack } from '@components/stack';
+import { VStack, ZStack } from '@components/stack';
 import { useStatus, useNote } from 'hooks';
 import { useTranslation } from 'react-i18next';
 import { FooterContainer, FooterMessage } from './Footer.styled';
@@ -54,7 +54,7 @@ const Footer = ({ mode }: Props) => {
           </FooterMessage>
         )}
         {mode === 'NoteView' && <SyncStatus />}
-        <HStack>
+        <VStack>
           <Button onPress={create}>
             <Icon name="create-outline" size={24} />
           </Button>
@@ -63,7 +63,7 @@ const Footer = ({ mode }: Props) => {
               <Icon name="ios-trash-bin-outline" size={24} />
             </Button>
           )}
-        </HStack>
+        </VStack>
       </ZStack>
     </FooterContainer>
   );

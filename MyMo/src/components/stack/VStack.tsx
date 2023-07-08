@@ -1,8 +1,10 @@
 import styled from 'styled-components/native';
 
 const VStackContainer = styled.View`
-  flex-direction: column;
+  flex-direction: row-reverse;
   align-items: center;
+  justify-content: space-between;
+  flex: 1;
 `;
 
 type Props = {
