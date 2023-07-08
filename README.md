@@ -4,10 +4,51 @@ react-native 과제 구현 레포지토리 입니다.
 
 ## 실행 방법
 
+### Backend
+
+```shell
+docker-compose up -d
 ```
+
+### Frontend
+
+```shell
 cd ./Mymo
-npm install
-npm run ios
+yarn
+yarn ios
+```
+
+<br><br>
+
+## 디렉토리 구조
+
+```shell
+.
+├── MyMo            # Frontend
+│   ├── App.tsx     # App Entry Point
+│   ├── android
+│   ├── ios
+│   └── src
+│       ├── api
+│       ├── components
+│       ├── context
+│       ├── hooks
+│       ├── i18n
+│       ├── interface
+│       ├── models
+│       ├── theme
+│       └── utils
+└── MyMoServer      # Backend
+    ├── env
+    └── src
+        ├── app.ts  # App Entry Point
+        ├── config
+        ├── controllers
+        ├── db
+        ├── interface
+        ├── modules
+        ├── routes
+        └── services
 ```
 
 ## 핵심 기능 (구현여부)
@@ -32,10 +73,13 @@ npm run ios
     ```text
     It is essential to handle conflicts that may arise when offline changes conflict with changes made on the server. The candidate should implement conflict resolution mechanisms to ensure data integrity and consistency.
     ```
-5. Offline Status Handling ( ❌ )
+5. Offline Status Handling ( ✅ )
+
     ```text
     The candidate should implement user interface components or indicators to notify users about their offline status and provide feedback on the synchronization process.
     ```
+
+<br><br>
 
 ## 구현 순서
 
@@ -47,12 +91,20 @@ npm run ios
 -   ✨ realm CRUD
 -   ♻️ refactor with context api
 -   📦️ i18next
--   ✨ transition
+-   🎉 backend project init
+-   📦️ @tanstack/react-query
+-   📦️ axios
+-   🎨 memo CRUD, navigation hook
+-   ✨ syncedAt, deletedAt added
+-   ♻️ delete DTO changed
+-   ♻️ Memo -> Note rename
+-   ✨ sync action added
+-   💄 styling
+-   ♻️ code refactor
+
+<br><br>
 
 ## To Do List
 
--   task로 된 네이밍 note로 수정
--   백엔드 개발
--   네트워크 레이어 구현
--   메모 피드 무한스크롤 구현
--   content 타입 block 방식으로 변경
+-   로컬 검색 기능 구현
+-   content 타입 block 방식으로 변경(title 없애고 content의 내용이 있는 첫번째 블록을 title로 사용)
