@@ -1,14 +1,41 @@
 {
-  "title": "모아보기",
-  "note-list-title-placeholder": "새로운 메모",
-  "footer-updating": "업데이트 중",
-  "footer-count-of-notes": "개의 메모",
-  "editor-title-placeholder": "제목을 입력하세요",
-  "editor-content-placeholder": "내용을 입력하세요",
-  "header-done": "완료",
-  "header-note-list-title": "모든 메모",
-  "alert-delete-title": "메모를 삭제하시겠습니까?",
-  "alert-delete-description": "삭제한 메모는 복구가 불가능합니다.",
-  "alert-delete-cancel": "취소",
-  "alert-delete-ok": "확인"
+  "note-list-view": {
+    "header": {
+      "title": "모든 메모"
+    },
+    "footer": {
+      "count-of-notes": "개의 메모"
+    },
+    "note": {
+      "title": {
+        "placeholder": "새로운 메모"
+      }
+    }
+  },
+  "note-view": {
+    "header": {
+      "done": "완료"
+    },
+    "footer": {
+      "offline": "오프라인",
+      "syncing": "동기화 중",
+      "synced": "동기화 완료"
+    },
+    "note": {
+      "title": {
+        "placeholder": "제목을 입력하세요"
+      },
+      "content": {
+        "placeholder": "내용을 입력하세요"
+      }
+    }
+  },
+  "alert": {
+    "delete": {
+      "title": "메모를 삭제하시겠습니까?",
+      "description": "삭제한 메모는 복구가 불가능합니다.",
+      "cancel": "취소",
+      "ok": "확인"
+    }
+  }
 }

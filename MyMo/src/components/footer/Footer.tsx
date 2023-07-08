@@ -59,21 +59,21 @@ const Footer = ({ mode }: Props) => {
         return (
           <StyledView>
             <Ionicons name="cloud-upload-sharp" size={20} color="black" />
-            <StyledText2>동기화 중</StyledText2>
+            <StyledText2>{t('note-view.footer.syncing')}</StyledText2>
           </StyledView>
         );
       } else {
         return (
           <StyledView>
             <Ionicons name="cloud-done-sharp" size={20} color="black" />
-            <StyledText2>동기화 완료</StyledText2>
+            <StyledText2>{t('note-view.footer.synced')}</StyledText2>
           </StyledView>
         );
       }
     } else {
       <StyledView>
         <Ionicons name="cloud-offline-sharp" size={20} color="black" />
-        <StyledText2>{t('footer-offline')}</StyledText2>
+        <StyledText2>{t('note-view.footer.offline')}</StyledText2>
       </StyledView>;
     }
   };
@@ -82,7 +82,7 @@ const Footer = ({ mode }: Props) => {
     <StyledFooter style={{ paddingBottom: insets.bottom }}>
       <ZStack>
         {mode === 'NoteListView' && (
-          <StyledText>{state.count + t('footer-count-of-notes')}</StyledText>
+          <StyledText>{state.count + t('note-list-view.footer.count-of-notes')}</StyledText>
         )}
         {mode === 'NoteView' && <SyncStatus />}
         <HStack>

@@ -1,14 +1,41 @@
 {
-  "title": "Feed",
-  "note-list-title-placeholder": "new Note",
-  "footer-updating": "updating",
-  "footer-count-of-notes": " Notes",
-  "editor-title-placeholder": "Please enter the title",
-  "editor-content-placeholder": "Please enter your content",
-  "header-done": "done",
-  "header-note-list-title": "Feed",
-  "alert-delete-title": "Are you sure you want to delete?",
-  "alert-delete-description": "Deleted notes are not recoverable.",
-  "alert-delete-cancel": "Cancel",
-  "alert-delete-ok": "OK"
+  "note-list-view": {
+    "header": {
+      "title": "Feed"
+    },
+    "footer": {
+      "count-of-notes": " Notes"
+    },
+    "note": {
+      "title": {
+        "placeholder": "new Note"
+      }
+    }
+  },
+  "note-view": {
+    "header": {
+      "done": "done"
+    },
+    "footer": {
+      "offline": "offline",
+      "syncing": "syncing",
+      "synced": "successfully synced"
+    },
+    "note": {
+      "title": {
+        "placeholder": "Please enter the title"
+      },
+      "content": {
+        "placeholder": "Please enter your content"
+      }
+    }
+  },
+  "alert": {
+    "delete": {
+      "title": "Are you sure you want to delete?",
+      "description": "Deleted notes are not recoverable.",
+      "cancel": "Cancel",
+      "ok": "OK"
+    }
+  }
 }

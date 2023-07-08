@@ -47,13 +47,13 @@ const useNote = () => {
   };
 
   const removeAlert = (callback: () => void) => {
-    Alert.alert(t('alert-delete-title'), t('alert-delete-description'), [
+    Alert.alert(t('alert.delete.title'), t('alert.delete.description'), [
       {
-        text: t('alert-delete-cancel'),
+        text: t('alert.delete.cancel'),
         style: 'destructive'
       },
       {
-        text: t('alert-delete-ok'),
+        text: t('alert.delete.ok'),
         onPress: () => {
           goBack();
           callback();

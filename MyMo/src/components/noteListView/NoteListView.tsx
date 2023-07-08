@@ -29,7 +29,7 @@ const NoteListView = ({ navigation }: StackScreenProps) => {
               navigation.navigate('NoteView');
             }}
           >
-            {note.title.length === 0 ? t('note-list-title-placeholder') : note.title}
+            {note.title.length === 0 ? t('note-list-view.note.title.placeholder') : note.title}
           </StyledText>
         );
       })}

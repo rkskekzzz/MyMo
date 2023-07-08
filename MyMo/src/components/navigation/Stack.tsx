@@ -21,7 +21,7 @@ const Stack = () => {
       headerRight: () =>
         state.isEdit ? (
           <HeaderButton
-            title={t('header-done')}
+            title={t('note-view.header.done')}
             onPress={() => {
               dispatch({ type: 'TO_READ_MODE' });
             }}
@@ -35,7 +35,7 @@ const Stack = () => {
       <NativeStack.Screen
         name="NoteListView"
         component={NoteListView}
-        options={{ title: t('header-note-list-title') }}
+        options={{ title: t('note-list-view.header.title') }}
       />
       <NativeStack.Screen name="NoteView" component={NoteView} options={NoteViewHeaderOption} />
     </NativeStack.Navigator>
