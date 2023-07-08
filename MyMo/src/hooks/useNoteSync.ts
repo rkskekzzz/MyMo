@@ -29,9 +29,9 @@ const useNoteSync = (localNote: Note | null, removeAlert: (callback: () => void)
   useEffect(() => {
     dispatch({
       type: 'SET_IS_SYNCING',
-      isSyncing: isLoading || isMutating
+      isSyncing: isLoading || isMutating || conflictStatus !== 'NoConflict'
     });
-  }, [isLoading, isMutating]);
+  }, [isLoading, isMutating, conflictStatus]);
 
   useEffect(() => {
     if (localNote && localNote?.syncedAt === null) {

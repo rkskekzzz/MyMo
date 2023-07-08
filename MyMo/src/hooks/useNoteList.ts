@@ -3,7 +3,7 @@ import { useQuery } from '@realm/react';
 import { Note } from 'models';
 import useStatus from './useStatus';
 
-const useNotes = () => {
+const useNoteList = () => {
   const { dispatch } = useStatus();
   const notesByLocal = useQuery(Note);
   const filteredNotes = notesByLocal.filter((note) => note.deletedAt === null);
@@ -19,4 +19,4 @@ const useNotes = () => {
   return { sortedNotes };
 };
 
-export default useNotes;
+export default useNoteList;

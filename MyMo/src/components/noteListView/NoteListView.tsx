@@ -1,7 +1,7 @@
 import { FlatList } from 'react-native';
 import { t } from 'i18next';
 import { Txt } from 'components/Txt';
-import { useStatus, useNotes } from 'hooks';
+import { useStatus, useNoteList } from 'hooks';
 import { formatDate } from 'utils';
 import { Footer } from '../footer';
 import { NoteListViewContainer, NoteList, NoteListItem } from './NoteListView.styled';
@@ -10,7 +10,7 @@ import type { StackScreenProps } from '../navigation';
 
 const NoteListView = ({ navigation }: StackScreenProps) => {
   const { dispatch } = useStatus();
-  const { sortedNotes } = useNotes();
+  const { sortedNotes } = useNoteList();
 
   const renderItem = ({ item }: { item: Note }) => {
     return (
