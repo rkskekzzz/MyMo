@@ -8,7 +8,7 @@ const useNavigation = () => {
   const goBack = () => navigation.goBack();
 
   const toNoteView = () => {
-    if (navigation.getState().routes[0].name === 'NoteView') goBack();
+    if (navigation.getState()?.index && navigation.getState().index === 1) goBack();
     navigation.navigate('NoteView');
   };
 

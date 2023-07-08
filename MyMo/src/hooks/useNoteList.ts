@@ -25,7 +25,7 @@ const useNoteList = () => {
       if (!serverNoteList) return;
       syncAll(serverNoteList);
     },
-    refetchInterval: 5000
+    refetchInterval: 10000
   });
 
   const syncAll = async (serverNoteList: Note[]) => {

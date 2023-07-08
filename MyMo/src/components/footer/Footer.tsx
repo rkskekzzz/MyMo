@@ -22,7 +22,7 @@ const Footer = ({ mode }: Props) => {
   const SyncingIndicator = () => (
     <FooterMessage>
       <ActivityIndicator size="small" color="primary" />
-      <Txt fontSize="sm">{t('note-view.footer.syncing')}</Txt>
+      <Txt fontSize="xs">{t('note-view.footer.syncing')}</Txt>
     </FooterMessage>
   );
 

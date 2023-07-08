@@ -2,20 +2,23 @@ import { useRealm } from '@realm/react';
 import { useMutation } from '@tanstack/react-query';
 import { NoteController } from 'api';
 import type { Note } from 'models';
+import { useCallback } from 'react';
 
 const useMutations = (localNote: Note | null) => {
   const realm = useRealm();
-  const updateLocalNoteSyncedAt = (data: Note) => {
-    const note = localNote;
-    if (note) {
-      realm.write(() => {
-        if (data.syncedAt) {
-          console.log(data.syncedAt);
-          note.syncedAt = data.syncedAt;
-        }
-      });
-    }
-  };
+  const updateLocalNoteSyncedAt = useCallback(
+    (data: Note) => {
+      const note = localNote;
+      if (note) {
+        realm.write(() => {
+          if (data.syncedAt) {
+            note.syncedAt = data.syncedAt;
+          }
+        });
+      }
+    },
+    [localNote]
+  );
   const createMutation = useMutation({
     mutationFn: NoteController.create,
     onSuccess: updateLocalNoteSyncedAt
