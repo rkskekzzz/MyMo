@@ -14,6 +14,10 @@ const NoteListView = ({ navigation }: StackScreenProps) => {
   const { dispatch } = useStatus();
   const { filteredNotes } = useNotes();
 
+  useEffect(() => {
+    console.log(filteredNotes);
+  }, []);
+
   return (
     <StyledView>
       {filteredNotes.map((note, index) => {

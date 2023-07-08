@@ -6,19 +6,11 @@ import { Note } from 'models';
 const useNotes = () => {
   const { dispatch } = useStatus();
   const notesByLocal = useQuery(Note);
-  const [filteredNotes, setFilteredNotes] = useState<Note[]>([]);
+  const filteredNotes = notesByLocal.filter((note) => note.deletedAt === null);
 
   useEffect(() => {
-    setFilteredNotes(
-      notesByLocal.filter((note) => {
-        note.deletedAt !== null;
-      })
-    );
+    dispatch({ type: 'SET_COUNT', newCount: filteredNotes.length });
   }, [notesByLocal]);
-
-  useEffect(() => {
-    if (filteredNotes) dispatch({ type: 'SET_COUNT', newCount: filteredNotes.length });
-  }, [filteredNotes]);
 
   return { filteredNotes };
 };

@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { onlineManager } from '@tanstack/query-core';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HStack, ZStack } from '@components/stack';
-import { useStatus, useNavigation, useNotes } from 'hooks';
+import { useStatus, useNavigation, useNote } from 'hooks';
 import { getColorByTheme } from 'utils';
 import { Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -50,10 +50,10 @@ type Props = {
 
 const Footer = ({ mode }: Props) => {
   const { goBack, toNoteView } = useNavigation();
-  const { create, remove } = useNotes();
-  const insets = useSafeAreaInsets();
+  const { create, remove } = useNote();
   const { state, dispatch } = useStatus();
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
 
   const onPressCreate = () => {
     toNoteView();

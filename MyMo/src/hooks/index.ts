@@ -5,4 +5,5 @@ export { default as useStatus } from './useStatus';
 export { default as useDebounce } from './useDebounce';
 export { default as useNavigation } from './useNavigation';
 export { default as useNote } from './useNote';
+export { default as useNoteSync } from './useNoteSync';
 export { default as useNotes } from './useNotes';

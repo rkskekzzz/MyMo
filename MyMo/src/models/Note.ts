@@ -1,24 +1,8 @@
 import Realm from 'realm';
 
-export interface CreateNoteDTO {
-  _id: string;
-  title: string;
-  content: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export interface UpdateNoteDTO {
-  _id: string;
-  title: string;
-  content: string;
-  updatedAt: Date;
-}
-
-export interface DeleteNoteDto {
-  _id: string;
-  deletedAt: Date | null;
-}
+export type CreateNoteDTO = Pick<Note, '_id' | 'title' | 'content' | 'updatedAt' | 'createdAt'>;
+export type UpdateNoteDTO = Pick<Note, '_id' | 'title' | 'content' | 'updatedAt'>;
+export type DeleteNoteDto = Pick<Note, '_id' | 'deletedAt'>;
 
 export class Note extends Realm.Object {
   _id!: string;

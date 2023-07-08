@@ -1,61 +1,41 @@
-import { useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { styled } from 'styled-components/native';
 import { Footer } from '../footer';
-import { useStatus, useInput, useDebounce, useNote } from 'hooks';
+import { useStatus, useInput, useDebounce, useNote, useNoteSync } from 'hooks';
 import { TextInput } from 'react-native';
+import NoteConflictView from './NoteConflictView';
+import NoteDefaultView from './NoteDefaultView';
 
-const StyledView = styled.View`
+const StyledView = styled.ScrollView`
   flex: 1;
 `;
 // const StyledText = styled.Text``;
 const StyledTextInput = styled(TextInput)``;
 
 const NoteView = () => {
-  const contentRef = useRef<TextInput>(null);
-  const { update } = useNote();
-  const { state, dispatch } = useStatus();
-  const { value: title, onChangeText: onChangeTitle } = useInput(state.note?.title);
-  const { value: content, onChangeText: onChangeContent } = useInput(state.note?.content);
+  const { localNote, update } = useNote();
+  const { serverNote, conflictStatus, forceSyncToLocal, forceSyncToServer } =
+    useNoteSync(localNote);
 
-  const onPressIn = () => {
-    if (!state.isEdit) dispatch({ type: 'TO_EDIT_MODE' });
-  };
-
-  const onSubmitEditingInTitle = () => {
-    if (contentRef.current) {
-      contentRef.current.focus();
-    }
-  };
-
-  useDebounce(() => {
-    update(title, content);
-  }, [title, content]);
+  const isConflict = useMemo(() => {
+    if (conflictStatus === 'NoConflict' || conflictStatus === 'DeleteConflictBoth') return false;
+    return true;
+  }, [conflictStatus]);
 
   return (
-    <StyledView>
-      <StyledTextInput
-        autoFocus
-        placeholder="title"
-        onChangeText={onChangeTitle}
-        editable={state.isEdit}
-        onPressIn={onPressIn}
-        blurOnSubmit={false}
-        onSubmitEditing={onSubmitEditingInTitle}
-      >
-        {title}
-      </StyledTextInput>
-      <TextInput
-        placeholder="content"
-        multiline
-        ref={contentRef}
-        onChangeText={onChangeContent}
-        editable={state.isEdit}
-        onPressIn={onPressIn}
-      >
-        {content}
-      </TextInput>
+    <>
+      {isConflict && localNote && serverNote ? (
+        <NoteConflictView
+          localNote={localNote}
+          serverNote={serverNote}
+          forceSyncToLocal={forceSyncToLocal}
+          forceSyncToServer={forceSyncToServer}
+        />
+      ) : (
+        <NoteDefaultView update={update} />
+      )}
       <Footer mode="NoteView" />
-    </StyledView>
+    </>
   );
 };
 
