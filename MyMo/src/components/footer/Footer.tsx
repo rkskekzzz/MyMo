@@ -1,5 +1,6 @@
-import { onlineManager } from '@tanstack/query-core';
+import { ActivityIndicator } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { onlineManager } from '@tanstack/query-core';
 import { VStack, ZStack } from '@components/stack';
 import { useStatus, useNote } from 'hooks';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +24,7 @@ const Footer = ({ mode }: Props) => {
       if (state.isSyncing) {
         return (
           <FooterMessage>
-            <Icon name="cloud-upload-sharp" size={16} color="disabled" />
+            <ActivityIndicator size="small" color="primary" />
             <Txt fontSize="sm">{t('note-view.footer.syncing')}</Txt>
           </FooterMessage>
         );
