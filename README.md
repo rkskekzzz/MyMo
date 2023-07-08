@@ -2,6 +2,17 @@
 
 react-native 과제 구현 레포지토리 입니다.
 
+## 구현 환경
+
+-   macOS Ventura 13.3.1
+-   Xcode 14.1
+
+## 테스트 기기
+
+-   iPhone 14 Pro Max (iOS 16.1) simulator
+-   iPhone 14 Pro (iOS 16.1) simulator
+-   iphone SE (iOS 16.1) simulator
+
 ## 실행 방법
 
 ### Backend
