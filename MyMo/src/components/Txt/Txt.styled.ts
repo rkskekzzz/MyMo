@@ -8,6 +8,7 @@ type Props = {
   fontWeight?: 'normal' | 'bold' | 'bolder' | 'lighter';
   color?: TextColor;
   textAlign?: 'left' | 'center' | 'right';
+  textDecorLine?: 'none' | 'underline' | 'line-through';
 };
 
 const StyledTxt = styled(Text)<Props>`
@@ -47,6 +48,7 @@ const StyledTxt = styled(Text)<Props>`
     }
   }};
   text-align: ${({ textAlign }) => textAlign || 'left'};
+  text-decoration-line: ${({ textDecorLine }) => textDecorLine || 'none'};
 `;
 
 export default StyledTxt;

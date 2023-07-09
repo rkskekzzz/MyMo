@@ -38,10 +38,17 @@ const NoteConflictView = ({
       </NoteViewConflictTop>
       <NoteViewConflictBottom>
         <NoteViewConflictScrollView>
-          <Txt color="secondary" fontSize="lg" fontWeight="bold">
+          <Txt
+            color="secondary"
+            fontSize="lg"
+            fontWeight="bold"
+            textDecorLine={!!serverNote.deletedAt ? 'line-through' : 'none'}
+          >
             {serverNote.title}
           </Txt>
-          <Txt color="secondary">{serverNote.content}</Txt>
+          <Txt color="secondary" textDecorLine={!!serverNote.deletedAt ? 'line-through' : 'none'}>
+            {serverNote.content}
+          </Txt>
         </NoteViewConflictScrollView>
         <NoteViewConflictButton onPress={forceSyncToLocal}>
           <Txt fontSize="sm" fontWeight="bold">

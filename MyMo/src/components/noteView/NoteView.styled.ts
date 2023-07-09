@@ -10,10 +10,10 @@ const NoteViewTextInputTitle = styled(TextInput)`
 `;
 
 const NoteViewTextInput = styled(TextInput)`
-  color: ${({ theme }) => getColorByTheme(theme).text.secondary};
   font-size: 16px;
-
+  /* background-color: whit */
   padding-bottom: 40px;
+  color: ${({ theme }) => getColorByTheme(theme).text.secondary};
 `;
 
 const SafeAreaNoteView = styled.View`

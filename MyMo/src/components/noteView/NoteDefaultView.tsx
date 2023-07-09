@@ -1,6 +1,8 @@
 import { useRef } from 'react';
 import { useInput, useStatus, useDebounce } from 'hooks';
 import { NoteViewTextInput, NoteViewTextInputTitle } from './NoteView.styled';
+import { useTranslation } from 'react-i18next';
+import { useTheme } from 'styled-components/native';
 import type { TextInput } from 'react-native';
 
 type Props = {
@@ -8,7 +10,9 @@ type Props = {
 };
 
 const NoteDefaultView = ({ update }: Props) => {
+  const { t } = useTranslation();
   const contentRef = useRef<TextInput>(null);
+  const theme = useTheme();
   const { state, dispatch } = useStatus();
   const { value: title, onChangeText: onChangeTitle } = useInput(state.note?.title);
   const { value: content, onChangeText: onChangeContent } = useInput(state.note?.content);
@@ -31,7 +35,7 @@ const NoteDefaultView = ({ update }: Props) => {
     <>
       <NoteViewTextInputTitle
         autoFocus
-        placeholder="title"
+        placeholder={t('note-view.note.title.placeholder')}
         onChangeText={onChangeTitle}
         editable={state.isEdit}
         onPressIn={onPressIn}
@@ -41,8 +45,9 @@ const NoteDefaultView = ({ update }: Props) => {
         {title}
       </NoteViewTextInputTitle>
       <NoteViewTextInput
-        placeholder="content"
         multiline
+        placeholder={t('note-view.note.content.placeholder')}
+        placeholderTextColor={theme[theme.mode].text.disabled + '80'}
         ref={contentRef}
         onChangeText={onChangeContent}
         editable={state.isEdit}
