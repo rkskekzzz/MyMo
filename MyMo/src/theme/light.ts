@@ -1,4 +1,4 @@
-import type { ColorStyle } from './theme.types';
+import type { ColorStyle } from './theme.type';
 
 const light: ColorStyle = {
   primary: '#ffd52e',

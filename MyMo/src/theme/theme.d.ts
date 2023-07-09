@@ -1,5 +1,5 @@
 import 'styled-components/native';
-import { ColorStyle } from './theme.types';
+import { ColorStyle } from './theme.type';
 import { ColorSchemeName } from 'react-native';
 
 declare module 'styled-components/native' {

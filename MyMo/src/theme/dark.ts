@@ -1,4 +1,4 @@
-import type { ColorStyle } from './theme.types';
+import type { ColorStyle } from './theme.type';
 
 const dark: ColorStyle = {
   primary: '#E1AE06',
