@@ -18,13 +18,30 @@ const useNoteSync = (localNote: Note | null, removeAlert: (callback: () => void)
   const queryEnabled = onlineManager.isOnline() && localNote?.syncedAt;
   const queryKey = queryEnabled ? ['note', localNote._id] : [];
   const queryFn = queryEnabled ? () => NoteController.getOne(localNote._id) : () => null;
+  const syncOne = async (serverNote?: Note | null) => {
+    if (!localNote || !serverNote || !localNote.syncedAt) return;
+    if (createMutation.isLoading || updateMutation.isLoading || removeMutation.isLoading) return;
+    if (conflictStatus !== 'NoConflict') return;
+    const newConflictStatus = getConflictStatus(serverNote, localNote);
+    if (
+      newConflictStatus === 'NoConflict' &&
+      getTime(localNote.updatedAt) > getTime(serverNote.updatedAt)
+    ) {
+      updateMutation.mutate({
+        _id: localNote._id,
+        title: localNote.title,
+        content: localNote.content,
+        updatedAt: localNote.updatedAt,
+        deletedAt: localNote.deletedAt
+      });
+      return;
+    }
+    setConflictStatus(newConflictStatus);
+  };
   const { data: serverNote, isFetching } = useQuery({
     queryKey,
     queryFn,
-    onSuccess: (serverNote) => {
-      if (!serverNote) return;
-      syncOne(serverNote);
-    },
+    onSuccess: syncOne,
     refetchInterval: 4000
   });
 
@@ -48,48 +65,14 @@ const useNoteSync = (localNote: Note | null, removeAlert: (callback: () => void)
     }
   }, [localNote]);
 
-  const syncOne = async (serverNote?: Note) => {
-    if (!localNote || !serverNote || !localNote.syncedAt) return;
-    if (createMutation.isLoading || updateMutation.isLoading || removeMutation.isLoading) return;
-    if (conflictStatus !== 'NoConflict') return;
-    const newConflictStatus = getConflictStatus(serverNote, localNote);
-    if (
-      newConflictStatus === 'NoConflict' &&
-      getTime(localNote.updatedAt) > getTime(serverNote.updatedAt)
-    ) {
-      updateMutation.mutate({
-        _id: localNote._id,
-        title: localNote.title,
-        content: localNote.content,
-        updatedAt: localNote.updatedAt,
-        deletedAt: localNote.deletedAt
-      });
-      return;
-    }
-    setConflictStatus(newConflictStatus);
-  };
-
   const getConflictStatus = (localNote: Note, serverNote: Note): ConflictStatus => {
-    /**
-     * 충돌 상태 정리
-     * 1. 로컬 변경사항이 서버보다 많음 -> crash / 로컬 선택시 서버로 업데이트
-     * 2. 서버 변경사항이 로컬보다 많음 -> crash / 서버 선택시 로컬 업데이트
-     * 3. 둘다 삭제되었지만 삭제 시간만 다른 경우 ->
-     * ㄴ 최근 시간으로 싱크 맞추기
-     * 3. 로컬은 삭제, 서버는 삭제되지 않음 -> serverNote.deletedAt !== null
-     * ㄴ 서버에 remove 요청 보내기
-     * 4. 서버는 삭제, 로컬은 삭제되지 않음 -> localNote.deletedAt !== null
-     * ㄴ 로컬 remove 하기
-     */
-    console.log(localNote.syncedAt);
-    console.log(serverNote.syncedAt);
+    // 확장성 고려한 충돌 타입 설정
     if (
       localNote.syncedAt &&
       serverNote.syncedAt &&
       getTime(localNote.syncedAt) === getTime(serverNote.syncedAt)
     )
       return 'NoConflict';
-    // 노트가 삭제된 경우
     if (
       localNote.deletedAt &&
       serverNote.deletedAt &&
@@ -101,7 +84,6 @@ const useNoteSync = (localNote: Note | null, removeAlert: (callback: () => void)
     } else if (localNote.deletedAt && !serverNote.deletedAt) {
       return 'DeleteConflictLocal';
     }
-    // 노트가 변경된 경우
     return 'UpdateConflict';
   };
 
@@ -109,7 +91,6 @@ const useNoteSync = (localNote: Note | null, removeAlert: (callback: () => void)
     if (!localNote) return;
     const { _id, title, content, deletedAt, updatedAt } = localNote;
     if (conflictStatus === 'DeleteConflictServer') {
-      // 불가능
       removeMutation.mutate({ _id, deletedAt });
     } else {
       updateMutation.mutate({ _id, title, content, updatedAt, deletedAt });

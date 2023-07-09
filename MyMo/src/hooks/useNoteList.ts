@@ -8,30 +8,24 @@ import { getTime } from 'utils';
 import { useRealm } from '@realm/react';
 import useStatus from './useStatus';
 
+const byIsDeleted = (note: Note) => note.deletedAt === null;
+const byUpdatedAt = (a: Note, b: Note) => {
+  if (a.updatedAt === b.updatedAt) return 0;
+  return a.updatedAt > b.updatedAt ? -1 : 1;
+};
+
 const useNoteList = () => {
   const { dispatch } = useStatus();
   const localNoteList = useRealmQuery(Note);
-  const filteredNoteList = localNoteList.filter((note) => note.deletedAt === null);
-  const sortedNoteList = filteredNoteList.sort((a, b) => {
-    if (a.updatedAt === b.updatedAt) return 0;
-    return a.updatedAt > b.updatedAt ? -1 : 1;
-  });
+  const filteredNoteList = localNoteList.filter(byIsDeleted);
+  const sortedNoteList = filteredNoteList.sort(byUpdatedAt);
 
   const realm = useRealm();
   const queryEnabled = onlineManager.isOnline();
   const queryKey = queryEnabled ? ['noteList'] : [];
   const queryFn = queryEnabled ? () => NoteController.getAll() : () => null;
-  const { isFetching } = useQuery({
-    queryKey,
-    queryFn,
-    onSuccess: (serverNoteList) => {
-      if (!serverNoteList) return;
-      syncAll(serverNoteList);
-    },
-    refetchInterval: 10000
-  });
-
-  const syncAll = async (serverNoteList: Note[]) => {
+  const syncAll = async (serverNoteList: Note[] | null) => {
+    if (!serverNoteList) return;
     const idList = Array.from(
       new Set([...localNoteList.map((note) => note._id), ...serverNoteList.map((note) => note._id)])
     );
@@ -88,6 +82,12 @@ const useNoteList = () => {
       }
     });
   };
+  const { isFetching } = useQuery({
+    queryKey,
+    queryFn,
+    onSuccess: syncAll,
+    refetchInterval: 10000
+  });
 
   useEffect(() => {
     dispatch({ type: 'SET_IS_SYNCING', isSyncing: isFetching });
