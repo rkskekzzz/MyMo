@@ -43,7 +43,9 @@ const Footer = ({ mode }: Props) => {
     } else {
       <FooterMessage>
         <Icon name="cloud-offline-sharp" size={16} color="error" />
-        <Txt fontSize="sm">{t('note-view.footer.offline')}</Txt>
+        <Txt fontSize="sm" color="error">
+          {t('note-view.footer.offline')}
+        </Txt>
       </FooterMessage>;
     }
   };

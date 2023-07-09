@@ -7,15 +7,13 @@ import { useCallback } from 'react';
 const useMutations = (localNote: Note | null) => {
   const realm = useRealm();
   const updateLocalNoteSyncedAt = useCallback(
-    (data: Note) => {
+    (data: Note | undefined) => {
       const note = localNote;
-      if (note) {
-        realm.write(() => {
-          if (data.syncedAt) {
-            note.syncedAt = data.syncedAt;
-          }
-        });
-      }
+      realm.write(() => {
+        if (note && data && data.syncedAt) {
+          note.syncedAt = data.syncedAt;
+        }
+      });
     },
     [localNote]
   );
@@ -32,11 +30,14 @@ const useMutations = (localNote: Note | null) => {
     onSuccess: updateLocalNoteSyncedAt
   });
 
+  const isMutating =
+    createMutation.isLoading || updateMutation.isLoading || removeMutation.isLoading;
+
   return {
     createMutation,
     updateMutation,
     removeMutation,
-    isMutating: createMutation.isLoading || updateMutation.isLoading || removeMutation.isLoading
+    isMutating
   };
 };
 

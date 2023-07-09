@@ -10,7 +10,7 @@ import type { StackScreenProps } from '../navigation';
 
 const NoteListView = ({ navigation }: StackScreenProps) => {
   const { dispatch } = useStatus();
-  const { localNoteList, sortedNoteList } = useNoteList();
+  const { sortedNoteList } = useNoteList();
 
   const renderItem = ({ item }: { item: Note }) => {
     return (

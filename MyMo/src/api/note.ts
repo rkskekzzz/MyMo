@@ -20,7 +20,7 @@ const NoteController = {
   },
   update: async (updateNoteDTO: UpdateNoteDTO) => {
     try {
-      const response = await MymoAxiosInstance.patch('/', updateNoteDTO);
+      const response = await MymoAxiosInstance.patch<Note>('/', updateNoteDTO);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -28,7 +28,7 @@ const NoteController = {
   },
   create: async (createNoteDTO: CreateNoteDTO) => {
     try {
-      const response = await MymoAxiosInstance.post('/', createNoteDTO);
+      const response = await MymoAxiosInstance.post<Note>('/', createNoteDTO);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -36,7 +36,7 @@ const NoteController = {
   },
   remove: async (deleteNoteDto: DeleteNoteDto) => {
     try {
-      const response = await MymoAxiosInstance.put('/', deleteNoteDto);
+      const response = await MymoAxiosInstance.put<Note>('/', deleteNoteDto);
       return response.data;
     } catch (error) {
       console.log(error);

@@ -1,7 +1,10 @@
 import Realm from 'realm';
 
-export type CreateNoteDTO = Pick<Note, '_id' | 'title' | 'content' | 'updatedAt' | 'createdAt'>;
-export type UpdateNoteDTO = Pick<Note, '_id' | 'title' | 'content' | 'updatedAt'>;
+export type CreateNoteDTO = Pick<
+  Note,
+  '_id' | 'title' | 'content' | 'updatedAt' | 'createdAt' | 'deletedAt'
+>;
+export type UpdateNoteDTO = Pick<Note, '_id' | 'title' | 'content' | 'updatedAt' | 'deletedAt'>;
 export type DeleteNoteDto = Pick<Note, '_id' | 'deletedAt'>;
 
 export class Note extends Realm.Object {

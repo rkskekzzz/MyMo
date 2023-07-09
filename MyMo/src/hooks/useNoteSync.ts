@@ -5,18 +5,19 @@ import { NoteController } from 'api';
 import { getTime } from 'utils';
 import useStatus from './useStatus';
 import useMutations from './useMutations';
+import { onlineManager } from '@tanstack/react-query';
 import type { Note } from 'models';
 import type { ConflictStatus } from 'interface';
 
 const useNoteSync = (localNote: Note | null, removeAlert: (callback: () => void) => void) => {
   const realm = useRealm();
-  const { state, dispatch } = useStatus();
+  const { dispatch } = useStatus();
   const { createMutation, updateMutation, removeMutation, isMutating } = useMutations(localNote);
   const [conflictStatus, setConflictStatus] = useState<ConflictStatus>('NoConflict');
 
-  const queryKey = state.isEdit && localNote?.syncedAt ? ['note', localNote._id] : [];
-  const queryFn =
-    state.isEdit && localNote?.syncedAt ? () => NoteController.getOne(localNote._id) : () => null;
+  const queryEnabled = onlineManager.isOnline() && localNote?.syncedAt;
+  const queryKey = queryEnabled ? ['note', localNote._id] : [];
+  const queryFn = queryEnabled ? () => NoteController.getOne(localNote._id) : () => null;
   const { data: serverNote, isFetching } = useQuery({
     queryKey,
     queryFn,
@@ -41,7 +42,8 @@ const useNoteSync = (localNote: Note | null, removeAlert: (callback: () => void)
         title: localNote.title,
         content: localNote.content,
         createdAt: localNote.createdAt,
-        updatedAt: localNote.updatedAt
+        updatedAt: localNote.updatedAt,
+        deletedAt: null
       });
     }
   }, [localNote]);
@@ -59,7 +61,8 @@ const useNoteSync = (localNote: Note | null, removeAlert: (callback: () => void)
         _id: localNote._id,
         title: localNote.title,
         content: localNote.content,
-        updatedAt: localNote.updatedAt
+        updatedAt: localNote.updatedAt,
+        deletedAt: localNote.deletedAt
       });
       return;
     }
@@ -78,6 +81,8 @@ const useNoteSync = (localNote: Note | null, removeAlert: (callback: () => void)
      * 4. 서버는 삭제, 로컬은 삭제되지 않음 -> localNote.deletedAt !== null
      * ㄴ 로컬 remove 하기
      */
+    console.log(localNote.syncedAt);
+    console.log(serverNote.syncedAt);
     if (
       localNote.syncedAt &&
       serverNote.syncedAt &&
@@ -107,7 +112,7 @@ const useNoteSync = (localNote: Note | null, removeAlert: (callback: () => void)
       // 불가능
       removeMutation.mutate({ _id, deletedAt });
     } else {
-      updateMutation.mutate({ _id, title, content, updatedAt });
+      updateMutation.mutate({ _id, title, content, updatedAt, deletedAt });
     }
     setConflictStatus('NoConflict');
   };
