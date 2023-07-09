@@ -6,5 +6,5 @@ export interface Note {
   syncedAt: Date;
   createdAt: Date;
   updatedAt: Date;
-  deletedAt?: Date;
+  deletedAt: Date | null;
 }

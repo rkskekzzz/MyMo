@@ -21,6 +21,7 @@ async function update(updateNoteDTO: UpdateNoteDTO): Promise<Note> {
     note.title = updateNoteDTO.title;
     note.content = updateNoteDTO.content;
     note.updatedAt = updateNoteDTO.updatedAt;
+    note.deletedAt = updateNoteDTO.deletedAt;
     note.syncedAt = new Date();
 
     const updatedNote = await note.save();
@@ -38,9 +39,8 @@ async function remove(deleteNoteDTO: DeleteNoteDTO): Promise<Note> {
       throw new ApiError(404, 'Error : Note Not Found');
     }
 
-    const now = new Date();
-
-    note.syncedAt = now;
+    note.syncedAt = new Date();
+    note.updatedAt = deleteNoteDTO.deletedAt;
     note.deletedAt = deleteNoteDTO.deletedAt;
 
     const deletedNote = await note.save();
