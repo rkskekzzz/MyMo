@@ -31,7 +31,7 @@ yarn ios
 
 <br><br>
 
-## 디렉토리 구조
+## 디렉토리 구조 & 네이밍 규칙
 
 ```shell
 .
@@ -60,6 +60,13 @@ yarn ios
         ├── modules
         ├── routes
         └── services
+```
+
+```shell
+*.tsx       # React Component
+*.type.ts   # Typescript Type
+*.styled.ts # Styled Component
+*.const.ts  # Constant Value
 ```
 
 ## 핵심 기능 (구현여부)
@@ -109,7 +116,10 @@ yarn ios
 -   ✨ syncedAt, deletedAt added
 -   ♻️ delete DTO changed
 -   ♻️ Memo -> Note rename
--   ✨ sync action added
+-   ✨ **Sync One** action added
+-   💄 styling
+-   ♻️ code refactor
+-   ✨ **Sync All** action added
 -   💄 styling
 -   ♻️ code refactor
 
